@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-10T13:39:21.639Z
-> Files: 25 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-10T13:57:25.197Z
+> Files: 44 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -20,6 +20,31 @@
 ## .claude/rules/
 
 - `openwolf.md` (~313 tok)
+
+## .github/workflows/
+
+- `ci.yml` — CI: ci (~148 tok)
+
+## cmd/server/
+
+- `main.go` (~310 tok)
+
+## db/migrations/
+
+- `00001_bootstrap.sql` — +goose Up (~108 tok)
+
+## deploy/compose/
+
+- `docker-compose.yml` — Docker Compose services (~264 tok)
+- `nginx-webhook.conf` (~116 tok)
+
+## deploy/compose/initdb/
+
+- `00-roles.sql` — Owner/migrator role is the compose superuser "pix" (POSTGRES_USER). (~112 tok)
+
+## deploy/docker/
+
+- `Dockerfile` — Docker container definition (~71 tok)
 
 ## docs/
 
@@ -46,6 +71,36 @@
 ## docs/superpowers/specs/
 
 - `2026-06-09-pix-payment-platform-design.md` — Design Spec — Enterprise Pix Payment Platform (EFí) (~8261 tok)
+
+## internal/platform/config/
+
+- `config_test.go` — TestLoadDefaultsAndRequired, TestLoadMissingRequired (~142 tok)
+- `config.go` — Struct: Config (~217 tok)
+
+## internal/platform/db/
+
+- `db_test.go` — go:build integration (~510 tok)
+- `db.go` — Struct: Pool (~513 tok)
+
+## internal/platform/errors/
+
+- `errors_test.go` — TestKindOf (~125 tok)
+- `errors.go` — Struct: Error (~187 tok)
+
+## internal/platform/health/
+
+- `health_test.go` — TestEndpoints, TestReadyFailsWhenDepDown (~231 tok)
+- `health.go` — Register (~179 tok)
+
+## internal/platform/logging/
+
+- `logging_test.go` — TestMaskDoc, TestNewReturnsLogger (~124 tok)
+- `logging.go` — New, MaskDoc (~192 tok)
+
+## internal/platform/money/
+
+- `money_test.go` — TestCentavosString, TestParseString (~147 tok)
+- `money.go` — ParseString (~239 tok)
 
 ## root (added)
 

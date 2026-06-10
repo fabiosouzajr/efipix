@@ -43,6 +43,126 @@
       "action": "create",
       "tokens": 150,
       "at": "2026-06-10T13:39:21.648Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/money/money_test.go",
+      "action": "create",
+      "tokens": 158,
+      "at": "2026-06-10T13:41:32.279Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/money/money.go",
+      "action": "create",
+      "tokens": 256,
+      "at": "2026-06-10T13:41:57.749Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/errors/errors_test.go",
+      "action": "create",
+      "tokens": 134,
+      "at": "2026-06-10T13:42:40.696Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/errors/errors.go",
+      "action": "create",
+      "tokens": 200,
+      "at": "2026-06-10T13:42:52.095Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/config/config_test.go",
+      "action": "create",
+      "tokens": 152,
+      "at": "2026-06-10T13:43:26.427Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/config/config.go",
+      "action": "create",
+      "tokens": 232,
+      "at": "2026-06-10T13:43:58.124Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/logging/logging_test.go",
+      "action": "create",
+      "tokens": 133,
+      "at": "2026-06-10T13:44:19.104Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/logging/logging_test.go",
+      "action": "edit",
+      "tokens": 24,
+      "at": "2026-06-10T13:47:21.109Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/logging/logging.go",
+      "action": "create",
+      "tokens": 206,
+      "at": "2026-06-10T13:47:28.703Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/deploy/compose/initdb/00-roles.sql",
+      "action": "create",
+      "tokens": 120,
+      "at": "2026-06-10T13:48:09.107Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/db/migrations/00001_bootstrap.sql",
+      "action": "create",
+      "tokens": 115,
+      "at": "2026-06-10T13:48:20.639Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/db/db.go",
+      "action": "create",
+      "tokens": 549,
+      "at": "2026-06-10T13:50:37.405Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/db/db_test.go",
+      "action": "create",
+      "tokens": 547,
+      "at": "2026-06-10T13:50:52.402Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/health/health_test.go",
+      "action": "create",
+      "tokens": 247,
+      "at": "2026-06-10T13:51:58.698Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/internal/platform/health/health.go",
+      "action": "create",
+      "tokens": 192,
+      "at": "2026-06-10T13:52:42.590Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/cmd/server/main.go",
+      "action": "create",
+      "tokens": 332,
+      "at": "2026-06-10T13:53:18.643Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/deploy/docker/Dockerfile",
+      "action": "create",
+      "tokens": 76,
+      "at": "2026-06-10T13:54:07.869Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/deploy/compose/nginx-webhook.conf",
+      "action": "create",
+      "tokens": 124,
+      "at": "2026-06-10T13:54:14.724Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/deploy/compose/docker-compose.yml",
+      "action": "create",
+      "tokens": 264,
+      "at": "2026-06-10T13:54:28.927Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/.github/workflows/ci.yml",
+      "action": "create",
+      "tokens": 148,
+      "at": "2026-06-10T13:57:25.208Z"
     }
   ],
   "edit_counts": {
@@ -50,7 +170,26 @@
     ".gitignore": 1,
     "sqlc.yaml": 1,
     ".golangci.yml": 1,
-    "Makefile": 1
+    "Makefile": 1,
+    "internal/platform/money/money_test.go": 1,
+    "internal/platform/money/money.go": 1,
+    "internal/platform/errors/errors_test.go": 1,
+    "internal/platform/errors/errors.go": 1,
+    "internal/platform/config/config_test.go": 1,
+    "internal/platform/config/config.go": 1,
+    "internal/platform/logging/logging_test.go": 2,
+    "internal/platform/logging/logging.go": 1,
+    "deploy/compose/initdb/00-roles.sql": 1,
+    "db/migrations/00001_bootstrap.sql": 1,
+    "internal/platform/db/db.go": 1,
+    "internal/platform/db/db_test.go": 1,
+    "internal/platform/health/health_test.go": 1,
+    "internal/platform/health/health.go": 1,
+    "cmd/server/main.go": 1,
+    "deploy/docker/Dockerfile": 1,
+    "deploy/compose/nginx-webhook.conf": 1,
+    "deploy/compose/docker-compose.yml": 1,
+    ".github/workflows/ci.yml": 1
   },
   "anatomy_hits": 1,
   "anatomy_misses": 1,

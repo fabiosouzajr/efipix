@@ -90,3 +90,28 @@
 | 10:39 | Created sqlc.yaml | — | ~74 |
 | 10:39 | Created .golangci.yml | — | ~41 |
 | 10:39 | Created Makefile | — | ~140 |
+| 10:41 | Created internal/platform/money/money_test.go | — | ~147 |
+| 10:41 | Created internal/platform/money/money.go | — | ~239 |
+| 10:42 | Created internal/platform/errors/errors_test.go | — | ~125 |
+| 10:42 | Created internal/platform/errors/errors.go | — | ~187 |
+| 10:43 | Created internal/platform/config/config_test.go | — | ~142 |
+| 10:43 | Created internal/platform/config/config.go | — | ~217 |
+| 10:44 | Created internal/platform/logging/logging_test.go | — | ~124 |
+| 10:47 | Edited internal/platform/logging/logging_test.go | "**.***.***/4567-**" → "**.***.***/0001-**" | ~23 |
+| 10:47 | Created internal/platform/logging/logging.go | — | ~192 |
+| 10:48 | Created deploy/compose/initdb/00-roles.sql | — | ~112 |
+| 10:48 | Created db/migrations/00001_bootstrap.sql | — | ~108 |
+| 10:50 | Created internal/platform/db/db.go | — | ~513 |
+| 10:50 | Created internal/platform/db/db_test.go | — | ~510 |
+| 10:51 | Created internal/platform/health/health_test.go | — | ~231 |
+| 10:52 | Created internal/platform/health/health.go | — | ~179 |
+| 10:53 | Created cmd/server/main.go | — | ~310 |
+| 10:54 | Created deploy/docker/Dockerfile | — | ~71 |
+| 10:54 | Created deploy/compose/nginx-webhook.conf | — | ~116 |
+| 10:54 | Created deploy/compose/docker-compose.yml | — | ~264 |
+| 10:57 | Created .github/workflows/ci.yml | — | ~148 |
+
+## Session summary — 2026-06-10 (Phase 1 / File 01 — Foundation)
+Implemented File 01 of the Phase 1 plan via superpowers executing-plans, strict TDD, on branch `phase1-foundation` (fresh `git init`). All 11 tasks done + gofmt fix = 12 commits. Packages: money, errors, config, logging (PII mask), db (pgx pool + RLS tenant tx), health; cmd/server; bootstrap migration + pix_app role + current_tenant_id(); deploy (Dockerfile, compose pg/redis/rabbit, nginx mTLS, env); CI.
+Verified green: `go build ./...`, `go vet ./...`, `go test ./...` (unit), db integration test (testcontainers), golangci-lint, full container boot (app image + pg + migrate + /health,/ready,/live).
+Key deviations from plan: Go **1.25** (not 1.24) in go.mod/Dockerfile/CI — latest deps require it; golangci-lint rebuilt from source (v1.64.8) to match. `make up` live boot not run (host :5432 occupied by pre-existing PG) — boot verified via alt-port containers instead. Next: File 02 (tenant-provider). See cerebrum Do-Not-Repeat + Decision Log.

@@ -64,6 +64,22 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-06-10T13:22:07.040Z"
+    },
+    {
+      "id": "bug-005",
+      "timestamp": "2026-06-10T13:47:21.110Z",
+      "error_message": "Incorrect value in code",
+      "file": "internal/platform/logging/logging_test.go",
+      "root_cause": "Had \"**.***.***/4567-**\"",
+      "fix": "Changed to \"**.***.***/0001-**\"",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "go"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-06-10T13:47:21.110Z"
     }
   ]
 }
