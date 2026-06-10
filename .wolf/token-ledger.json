@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-06-09T15:00:53.939Z",
   "lifetime": {
-    "total_tokens_estimated": 109951,
-    "total_reads": 1,
-    "total_writes": 104,
+    "total_tokens_estimated": 120996,
+    "total_reads": 3,
+    "total_writes": 129,
     "total_sessions": 4,
-    "anatomy_hits": 1,
-    "anatomy_misses": 0,
+    "anatomy_hits": 2,
+    "anatomy_misses": 1,
     "repeated_reads_blocked": 0,
-    "estimated_savings_vs_bare_cli": 200
+    "estimated_savings_vs_bare_cli": 400
   },
   "sessions": [
     {
@@ -791,6 +791,160 @@
         "output_tokens_estimated": 57119,
         "reads_count": 1,
         "writes_count": 42,
+        "repeated_reads_blocked": 0,
+        "anatomy_lookups": 1
+      }
+    },
+    {
+      "id": "session-2026-06-10-1034",
+      "started": "2026-06-10T13:34:18.743Z",
+      "ended": "2026-06-10T14:02:20.411Z",
+      "reads": [
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/plans/2026-06-10-phase1-01-foundation.md",
+          "tokens_estimated": 6555,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/go.mod",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/home/fj/git/efipix/go.mod",
+          "tokens_estimated": 2,
+          "action": "edit"
+        },
+        {
+          "file": "/home/fj/git/efipix/.gitignore",
+          "tokens_estimated": 14,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/sqlc.yaml",
+          "tokens_estimated": 74,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/.golangci.yml",
+          "tokens_estimated": 41,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/Makefile",
+          "tokens_estimated": 150,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/money/money_test.go",
+          "tokens_estimated": 158,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/money/money.go",
+          "tokens_estimated": 256,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/errors/errors_test.go",
+          "tokens_estimated": 134,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/errors/errors.go",
+          "tokens_estimated": 200,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/config/config_test.go",
+          "tokens_estimated": 152,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/config/config.go",
+          "tokens_estimated": 232,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/logging/logging_test.go",
+          "tokens_estimated": 133,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/logging/logging_test.go",
+          "tokens_estimated": 24,
+          "action": "edit"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/logging/logging.go",
+          "tokens_estimated": 206,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/deploy/compose/initdb/00-roles.sql",
+          "tokens_estimated": 120,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/db/migrations/00001_bootstrap.sql",
+          "tokens_estimated": 115,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/db/db.go",
+          "tokens_estimated": 549,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/db/db_test.go",
+          "tokens_estimated": 547,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/health/health_test.go",
+          "tokens_estimated": 247,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/health/health.go",
+          "tokens_estimated": 192,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/cmd/server/main.go",
+          "tokens_estimated": 332,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/deploy/docker/Dockerfile",
+          "tokens_estimated": 76,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/deploy/compose/nginx-webhook.conf",
+          "tokens_estimated": 124,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/deploy/compose/docker-compose.yml",
+          "tokens_estimated": 264,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/.github/workflows/ci.yml",
+          "tokens_estimated": 148,
+          "action": "create"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 6555,
+        "output_tokens_estimated": 4490,
+        "reads_count": 2,
+        "writes_count": 25,
         "repeated_reads_blocked": 0,
         "anatomy_lookups": 1
       }
