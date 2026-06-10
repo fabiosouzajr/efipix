@@ -724,11 +724,21 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 
 ---
 
-### Task 6: Idempotency store
+### Task 6: Idempotency store + replay middleware
 
 **Files:**
 - Create: `internal/platform/idempotency/idempotency.go`
+- Create: `internal/platform/idempotency/middleware.go`
+- Test: `internal/platform/idempotency/middleware_test.go` (unit, fake `Store`, no Docker)
 - Test: `internal/platform/idempotency/idempotency_test.go` (integration)
+
+> `Middleware` lives alongside `Store` because it's the same generic protocol (per the
+> "generic, not charge-specific" framing above) — gate, fingerprint, reserve/replay/conflict/
+> inflight branch, and persist, all hidden behind one `gin.HandlerFunc`. It follows the same
+> shape as `internal/platform/health.Register`, which already takes a `*gin.Engine` — platform
+> packages providing Gin glue is an established pattern, not a new one. Write handlers (Charge
+> create now, Refund/cancel/CobV later) register it per-route; it must run after tenant
+> resolution (`tenantctx.With` must already be in `ctx`).
 
 - [ ] **Step 1: Implement** (`internal/platform/idempotency/idempotency.go`)
 
@@ -808,7 +818,216 @@ func (s *PgStore) SaveResult(ctx context.Context, tenantID, key string, status i
 }
 ```
 
-- [ ] **Step 2: Write the failing integration test** (`internal/platform/idempotency/idempotency_test.go`)
+- [ ] **Step 2: Implement the replay middleware** (`internal/platform/idempotency/middleware.go`)
+
+```go
+package idempotency
+
+import (
+	"bytes"
+	"crypto/sha256"
+	"encoding/hex"
+	"io"
+	"log/slog"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+
+	"github.com/efipix/pix/internal/platform/tenantctx"
+)
+
+// bufferingWriter tees everything written to the real ResponseWriter into an
+// in-memory buffer, so Middleware can persist the handler's response via
+// Store.SaveResult after c.Next() returns.
+type bufferingWriter struct {
+	gin.ResponseWriter
+	body bytes.Buffer
+}
+
+func (w *bufferingWriter) Write(b []byte) (int, error) {
+	w.body.Write(b)
+	return w.ResponseWriter.Write(b)
+}
+
+func (w *bufferingWriter) WriteString(s string) (int, error) {
+	w.body.WriteString(s)
+	return w.ResponseWriter.WriteString(s)
+}
+
+// Middleware enforces the idempotent-replay protocol on the routes it's
+// registered for: requires "Idempotency-Key" (400 if absent), fingerprints
+// the raw request body (sha256), and reserves/replays/persists via store.
+//
+// Behavior by Reservation.State:
+//   - "replay":   writes back the stored status/body verbatim, handler does not run.
+//   - "conflict": 422 {"error": "idempotency key reused with different body"}.
+//   - "inflight": 409 {"error": "request in progress"}.
+//   - "new":      handler runs; its response is captured and persisted via SaveResult.
+//
+// Must run after tenant resolution (tenantctx.With must already be in ctx) and
+// before any handler reading c.Request.Body — the body is restored via
+// io.NopCloser before c.Next() so the handler can read it normally.
+func Middleware(store Store) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx := c.Request.Context()
+
+		key := c.GetHeader("Idempotency-Key")
+		if key == "" {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Idempotency-Key header required"})
+			return
+		}
+
+		res, ok := tenantctx.From(ctx)
+		if !ok {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "idempotency"})
+			return
+		}
+
+		raw, err := io.ReadAll(c.Request.Body)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "invalid body"})
+			return
+		}
+		c.Request.Body = io.NopCloser(bytes.NewReader(raw))
+		sum := sha256.Sum256(raw)
+		fp := hex.EncodeToString(sum[:])
+
+		rv, err := store.Reserve(ctx, res.TenantID, key, fp)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "idempotency"})
+			return
+		}
+
+		switch rv.State {
+		case "replay":
+			c.Data(rv.StoredStatus, "application/json; charset=utf-8", rv.StoredBody)
+			c.Abort()
+			return
+		case "conflict":
+			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{"error": "idempotency key reused with different body"})
+			return
+		case "inflight":
+			c.AbortWithStatusJSON(http.StatusConflict, gin.H{"error": "request in progress"})
+			return
+		}
+
+		bw := &bufferingWriter{ResponseWriter: c.Writer}
+		c.Writer = bw
+		c.Next()
+
+		if err := store.SaveResult(ctx, res.TenantID, key, c.Writer.Status(), bw.body.Bytes()); err != nil {
+			slog.ErrorContext(ctx, "idempotency: save result failed",
+				"tenant_id", res.TenantID, "key", key, "error", err)
+		}
+	}
+}
+```
+
+- [ ] **Step 3: Write the middleware unit test** (`internal/platform/idempotency/middleware_test.go`) — fake `Store`, no Docker
+
+```go
+package idempotency
+
+import (
+	"context"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/require"
+
+	"github.com/efipix/pix/internal/platform/tenantctx"
+)
+
+type fakeStore struct {
+	reserveFn func() (Reservation, error)
+	saved     struct {
+		status int
+		body   []byte
+	}
+}
+
+func (f *fakeStore) Reserve(context.Context, string, string, string) (Reservation, error) {
+	return f.reserveFn()
+}
+
+func (f *fakeStore) SaveResult(_ context.Context, _, _ string, status int, body []byte) error {
+	f.saved.status, f.saved.body = status, body
+	return nil
+}
+
+func newTestRouter(store Store) *gin.Engine {
+	gin.SetMode(gin.TestMode)
+	r := gin.New()
+	r.Use(func(c *gin.Context) {
+		ctx := tenantctx.With(c.Request.Context(), &tenantctx.Resolved{TenantID: "t1"})
+		c.Request = c.Request.WithContext(ctx)
+		c.Next()
+	})
+	r.POST("/x", Middleware(store), func(c *gin.Context) {
+		c.JSON(http.StatusCreated, gin.H{"ok": true})
+	})
+	return r
+}
+
+func postX(r *gin.Engine, key, body string) *httptest.ResponseRecorder {
+	w := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodPost, "/x", strings.NewReader(body))
+	if key != "" {
+		req.Header.Set("Idempotency-Key", key)
+	}
+	r.ServeHTTP(w, req)
+	return w
+}
+
+func TestMiddlewareMissingKey(t *testing.T) {
+	r := newTestRouter(&fakeStore{})
+	require.Equal(t, http.StatusBadRequest, postX(r, "", `{}`).Code)
+}
+
+func TestMiddlewareNewRunsHandlerAndSaves(t *testing.T) {
+	store := &fakeStore{reserveFn: func() (Reservation, error) { return Reservation{State: "new"}, nil }}
+	r := newTestRouter(store)
+
+	w := postX(r, "k1", `{"a":1}`)
+	require.Equal(t, http.StatusCreated, w.Code)
+	require.JSONEq(t, `{"ok":true}`, w.Body.String())
+	require.Equal(t, http.StatusCreated, store.saved.status)
+	require.JSONEq(t, `{"ok":true}`, string(store.saved.body))
+}
+
+func TestMiddlewareReplay(t *testing.T) {
+	store := &fakeStore{reserveFn: func() (Reservation, error) {
+		return Reservation{State: "replay", StoredStatus: http.StatusCreated, StoredBody: []byte(`{"ok":true}`)}, nil
+	}}
+	r := newTestRouter(store)
+
+	w := postX(r, "k1", `{}`)
+	require.Equal(t, http.StatusCreated, w.Code)
+	require.JSONEq(t, `{"ok":true}`, w.Body.String())
+}
+
+func TestMiddlewareConflict(t *testing.T) {
+	store := &fakeStore{reserveFn: func() (Reservation, error) { return Reservation{State: "conflict"}, nil }}
+	r := newTestRouter(store)
+	require.Equal(t, http.StatusUnprocessableEntity, postX(r, "k1", `{}`).Code)
+}
+
+func TestMiddlewareInflight(t *testing.T) {
+	store := &fakeStore{reserveFn: func() (Reservation, error) { return Reservation{State: "inflight"}, nil }}
+	r := newTestRouter(store)
+	require.Equal(t, http.StatusConflict, postX(r, "k1", `{}`).Code)
+}
+```
+
+- [ ] **Step 4: Run the middleware unit tests**
+
+Run: `go test ./internal/platform/idempotency/`
+Expected: PASS (5 tests), no Docker required.
+
+- [ ] **Step 5: Write the failing integration test** (`internal/platform/idempotency/idempotency_test.go`)
 
 ```go
 //go:build integration
@@ -879,16 +1098,16 @@ func TestReserveLifecycle(t *testing.T) {
 }
 ```
 
-- [ ] **Step 3: Run test to verify it passes**
+- [ ] **Step 6: Run test to verify it passes**
 
 Run: `go test -tags=integration ./internal/platform/idempotency/`
 Expected: PASS.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
 git add internal/platform/idempotency/
-git commit -m "feat(idempotency): DB-backed reserve/replay/conflict/inflight store
+git commit -m "feat(idempotency): DB-backed reserve/replay/conflict/inflight store + replay middleware
 
 Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ```
@@ -897,10 +1116,11 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 
 ## File 04 exit criteria
 
-- [ ] `go test ./internal/charge/domain/` green; `go test -tags=integration ./internal/charge/infra/ ./internal/platform/idempotency/` green.
+- [ ] `go test ./internal/charge/domain/ ./internal/platform/idempotency/` green; `go test -tags=integration ./internal/charge/infra/ ./internal/platform/idempotency/` green.
 - [ ] Two-phase persist proven: Create→CREATED, Save→ACTIVE with version bump + outbox row + 2 payment_events.
 - [ ] Optimistic-lock conflict raises `KindConflict`.
 - [ ] Idempotency Reserve returns new/inflight/conflict/replay correctly.
+- [ ] `idempotency.Middleware` unit-tested against a fake `Store` (no Docker): missing-key→400, new→handler runs+SaveResult called, replay/conflict/inflight map to 200(stored)/422/409.
 - [ ] `≥80%` coverage on `internal/charge/domain` (`go test -cover ./internal/charge/domain/`).
 
 Proceed to [05-create-charge-api](2026-06-10-phase1-05-create-charge-api.md).

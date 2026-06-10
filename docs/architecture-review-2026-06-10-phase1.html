@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Architecture review — efipix (Pix payment platform)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose", flowchart: { curve: "basis" } });
+    </script>
+    <style>
+      .seam { stroke-dasharray: 5 4; }
+      .leak { stroke: #dc2626; }
+      .deep { background: linear-gradient(135deg, #0f172a, #1e293b); }
+      .schem { font: 600 11px ui-sans-serif, system-ui; letter-spacing: .08em; text-transform: uppercase; }
+      .grain { background-image: radial-gradient(#0000000a 1px, transparent 1px); background-size: 14px 14px; }
+      mark.t { background: #e0e7ff; padding: 0 .2em; border-radius: 2px; }
+      mark.d { background: #d1fae5; padding: 0 .2em; border-radius: 2px; }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-slate-900 font-sans grain">
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-14">
+
+      <!-- ───────────────────────── HEADER ───────────────────────── -->
+      <header class="space-y-5">
+        <div class="flex items-baseline justify-between flex-wrap gap-2">
+          <h1 class="font-serif text-4xl tracking-tight">Architecture review — <span class="text-indigo-700">efipix</span></h1>
+          <span class="text-sm text-slate-500">2026-06-10 · Phase 1 (planned slice)</span>
+        </div>
+        <p class="text-slate-600 max-w-3xl text-[15px] leading-relaxed">
+          Deepening opportunities in the immediate-<strong>Charge</strong> slice. File 01 (foundation) is built;
+          files 02–05 are locked plans. The review reads the planned module shapes through the depth lens —
+          where the <em>interface</em> is nearly as complex as the <em>implementation</em>, where a concern
+          <em>leaks</em> across a <em>seam</em>, where the test surface is in the wrong place.
+        </p>
+        <!-- legend -->
+        <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-600 border-t border-b border-slate-200 py-3">
+          <span class="inline-flex items-center gap-2"><span class="inline-block w-5 h-3 border border-slate-400 bg-white"></span>module</span>
+          <span class="inline-flex items-center gap-2"><svg width="26" height="6"><line x1="0" y1="3" x2="26" y2="3" class="seam" stroke="#475569" stroke-width="2"/></svg>seam</span>
+          <span class="inline-flex items-center gap-2"><svg width="26" height="6"><line x1="0" y1="3" x2="26" y2="3" stroke="#dc2626" stroke-width="2"/></svg>leakage</span>
+          <span class="inline-flex items-center gap-2"><span class="inline-block w-5 h-3 deep rounded-sm"></span>deep module</span>
+          <span class="inline-flex items-center gap-2"><span class="px-1.5 rounded bg-emerald-100 text-emerald-800 font-medium">Strong</span><span class="px-1.5 rounded bg-amber-100 text-amber-800 font-medium">Worth exploring</span><span class="px-1.5 rounded bg-slate-200 text-slate-700 font-medium">Speculative</span></span>
+        </div>
+      </header>
+
+      <section id="candidates" class="space-y-12">
+
+        <!-- ═══════════════════ CANDIDATE 1 ═══════════════════ -->
+        <article id="c1" class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="px-7 pt-6 pb-5 border-b border-slate-100">
+            <div class="flex items-center gap-3 flex-wrap">
+              <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-xs font-semibold">Strong</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-xs font-mono">local-substitutable</span>
+              <span class="text-slate-400 text-xs">candidate 1</span>
+            </div>
+            <h2 class="font-serif text-2xl mt-3">Hoist the idempotency protocol behind one replay seam</h2>
+            <p class="font-mono text-[13px] text-slate-500 mt-2">internal/charge/api/handler.go &nbsp;·&nbsp; internal/platform/idempotency/idempotency.go</p>
+          </div>
+
+          <!-- before / after -->
+          <div class="grid md:grid-cols-2 gap-px bg-slate-100">
+            <!-- BEFORE -->
+            <div class="bg-white p-6">
+              <p class="schem text-slate-400 mb-4">Before — shallow</p>
+              <div class="relative" style="height:300px">
+                <!-- fat handler box -->
+                <div class="absolute inset-x-0 top-0 border-2 border-slate-300 rounded-lg p-3 bg-stone-50" style="height:230px">
+                  <p class="schem text-slate-500">Charge intake handler · create()</p>
+                  <ul class="mt-3 space-y-1.5 text-[12px] text-slate-600">
+                    <li class="bg-amber-50 border border-amber-200 rounded px-2 py-1">read <code>Idempotency-Key</code> → 400 if absent</li>
+                    <li class="bg-amber-50 border border-amber-200 rounded px-2 py-1">buffer body · sha256 fingerprint</li>
+                    <li class="bg-amber-50 border border-amber-200 rounded px-2 py-1">Reserve → switch replay / conflict / inflight</li>
+                    <li class="bg-white border border-slate-200 rounded px-2 py-1">parse · validate · resolve PixKey · use case</li>
+                    <li class="bg-amber-50 border border-amber-200 rounded px-2 py-1">SaveResult(status, body)</li>
+                  </ul>
+                </div>
+                <!-- thin store seam -->
+                <svg class="absolute" style="left:50%;top:230px;transform:translateX(-50%)" width="2" height="30"><line x1="1" y1="0" x2="1" y2="30" class="seam" stroke="#475569" stroke-width="2"/></svg>
+                <div class="absolute inset-x-0 bottom-0 border border-slate-300 rounded-lg px-3 py-2 bg-white">
+                  <p class="schem text-slate-500">idempotency.Store</p>
+                  <p class="text-[12px] text-slate-500 mt-1 font-mono">Reserve() · SaveResult()</p>
+                </div>
+              </div>
+              <p class="text-[12px] text-slate-500 mt-3 leading-snug">Amber = the replay protocol, smeared through the handler. The <code>Store</code> seam holds two methods; the rules that give them meaning live outside it.</p>
+            </div>
+            <!-- AFTER -->
+            <div class="bg-white p-6">
+              <p class="schem text-emerald-600 mb-4">After — deep</p>
+              <div class="relative" style="height:300px">
+                <div class="absolute inset-x-0 top-0 deep rounded-lg p-3 text-slate-100" style="height:120px">
+                  <p class="schem text-emerald-300">Idempotent replay · deep module</p>
+                  <p class="text-[12px] text-slate-300 mt-2 leading-snug">key + fingerprint → at-most-once.<br/>replay / conflict / inflight + status codes + body capture <span class="text-slate-500">(now internal)</span></p>
+                  <p class="text-[11px] text-slate-400 mt-2 font-mono">Do(ctx, key, fp, fn) (status, body)</p>
+                </div>
+                <svg class="absolute" style="left:50%;top:120px;transform:translateX(-50%)" width="2" height="26"><line x1="1" y1="0" x2="1" y2="26" class="seam" stroke="#475569" stroke-width="2"/></svg>
+                <div class="absolute inset-x-0 rounded-lg border-2 border-slate-300 p-3 bg-stone-50" style="top:146px;height:78px">
+                  <p class="schem text-slate-500">Charge intake handler</p>
+                  <p class="text-[12px] text-slate-600 mt-2">parse · validate · use case · respond</p>
+                </div>
+                <svg class="absolute" style="left:50%;top:224px;transform:translateX(-50%)" width="2" height="22"><line x1="1" y1="0" x2="1" y2="22" class="seam" stroke="#475569" stroke-width="2"/></svg>
+                <div class="absolute inset-x-0 bottom-0 border border-slate-300 rounded-lg px-3 py-2 bg-white">
+                  <p class="schem text-slate-500">idempotency.Store (unchanged adapter)</p>
+                </div>
+              </div>
+              <p class="text-[12px] text-slate-500 mt-3 leading-snug">The protocol becomes a deep module the handler wraps. Handler shrinks to four verbs.</p>
+            </div>
+          </div>
+
+          <div class="px-7 py-6 space-y-4">
+            <div class="grid sm:grid-cols-2 gap-5 text-[14px]">
+              <div><p class="schem text-slate-400 mb-1">Problem</p><p class="text-slate-700">The replay protocol (fingerprint, Reserve, the four-state switch, status codes, result capture) is interleaved inside the Charge intake handler; the <code>Store</code> seam exposes only <code>Reserve</code>/<code>SaveResult</code>.</p></div>
+              <div><p class="schem text-slate-400 mb-1">Solution</p><p class="text-slate-700">Pull the protocol behind one interface — a replay decorator or Gin middleware — so any write handler runs at-most-once per key without re-copying the dance.</p></div>
+            </div>
+            <div>
+              <p class="schem text-slate-400 mb-2">Wins</p>
+              <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-1.5 text-[13px] text-slate-700 list-disc pl-5">
+                <li>locality: replay rules in one module</li>
+                <li>leverage: Refund · cancel · CobV reuse it</li>
+                <li>interface shrinks: handler loses 30 lines</li>
+                <li>protocol becomes the test surface, not each e2e</li>
+              </ul>
+            </div>
+            <div class="bg-indigo-50 border border-indigo-200 rounded-lg px-4 py-2.5 text-[13px] text-indigo-900">
+              The overview already names this an <em>“idempotency middleware”</em> (file&nbsp;05 line&nbsp;23) — the plan’s implementation quietly inlined it into the handler. This deepening just delivers the module the plan promised.
+            </div>
+          </div>
+        </article>
+
+        <!-- ═══════════════════ CANDIDATE 2 ═══════════════════ -->
+        <article id="c2" class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="px-7 pt-6 pb-5 border-b border-slate-100">
+            <div class="flex items-center gap-3 flex-wrap">
+              <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-xs font-semibold">Worth exploring</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-xs font-mono">in-process</span>
+              <span class="text-slate-400 text-xs">candidate 2</span>
+            </div>
+            <h2 class="font-serif text-2xl mt-3">Resolve the acting account once — stop the PixKey leak</h2>
+            <p class="font-mono text-[13px] text-slate-500 mt-2">tenant/api/middleware.go · tenant/app/resolver.go · tenant/app/repository.go · charge/api/handler.go</p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-px bg-slate-100">
+            <!-- BEFORE: mermaid showing the leak + 3 txns -->
+            <div class="bg-white p-6">
+              <p class="schem text-slate-400 mb-3">Before — resolution split, 3 transactions</p>
+              <div class="rounded-lg border border-slate-200 bg-white p-3">
+                <pre class="mermaid">
+flowchart TB
+  MW["TenantResolver middleware"] -->|"tx1 admin"| R1["TenantByAPIKeyHash"]
+  MW -->|"tx2 tenant"| R2["DefaultProvider / Provider"]
+  MW --> CTX["tenantctx.Resolved\n{TenantID, ProviderID}"]
+  H["Charge intake handler"] -.->|"tx3 tenant — reaches across seam"| R3["PixKeyFor"]
+  CTX --> H
+  classDef leak stroke:#dc2626,stroke-width:2px,color:#dc2626;
+  class R3,H leak
+                </pre>
+              </div>
+              <p class="text-[12px] text-slate-500 mt-3 leading-snug">The Charge intake module reaches into the Tenant module mid-request for the <strong>PixKey</strong>. Resolution is two-thirds in the middleware, one-third in the handler — across three transactions.</p>
+            </div>
+            <!-- AFTER -->
+            <div class="bg-white p-6">
+              <p class="schem text-emerald-600 mb-3">After — one resolution, one join</p>
+              <div class="rounded-lg border border-slate-200 bg-white p-3">
+                <pre class="mermaid">
+flowchart TB
+  MW["Account resolver middleware"] -->|"tx1 admin"| R1["api-key → tenant"]
+  MW -->|"tx2 tenant — one join"| R2["provider ⨝ pix_keys"]
+  MW --> CTX["Resolved\n{TenantID, ProviderID, PixKey}"]
+  CTX --> H["Charge intake handler\n(reads res.PixKey)"]
+  classDef deep fill:#0f172a,stroke:#0f172a,color:#e2e8f0;
+  class MW deep
+                </pre>
+              </div>
+              <p class="text-[12px] text-slate-500 mt-3 leading-snug">The acting account (Tenant + PaymentProvider + its PixKey) resolves once, behind the resolver. The handler reads <code>res.PixKey</code> and never touches the Tenant module.</p>
+            </div>
+          </div>
+
+          <div class="px-7 py-6 space-y-4">
+            <div class="grid sm:grid-cols-2 gap-5 text-[14px]">
+              <div><p class="schem text-slate-400 mb-1">Problem</p><p class="text-slate-700">Account resolution is smeared: middleware resolves (Tenant, PaymentProvider); the Charge handler separately calls <code>PixKeyFor</code>. Four narrow repository lookups, three transactions per create.</p></div>
+              <div><p class="schem text-slate-400 mb-1">Solution</p><p class="text-slate-700">Resolve the whole acting account once and carry <code>PixKey</code> in <code>tenantctx.Resolved</code>. One <code>provider ⨝ pix_keys</code> query replaces two lookups.</p></div>
+            </div>
+            <div>
+              <p class="schem text-slate-400 mb-2">Wins</p>
+              <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-1.5 text-[13px] text-slate-700 list-disc pl-5">
+                <li>locality: account resolution in one module</li>
+                <li>leverage: 3 transactions → 2</li>
+                <li>Charge intake stops knowing about PixKeys</li>
+                <li>per-request seam crossing disappears</li>
+              </ul>
+            </div>
+            <div class="bg-amber-50 border border-amber-300 rounded-lg px-4 py-2.5 text-[13px] text-amber-900">
+              Touches a <strong>locked signature</strong>: <code>Resolved{TenantID, ProviderID}</code> gains <code>PixKey</code> — update the overview’s locked-signatures block first. <span class="text-amber-700">Not</span> an ADR-0003 conflict: that ADR specifies tenant+provider resolution only; the PixKey is additive.
+            </div>
+          </div>
+        </article>
+
+        <!-- ═══════════════════ CANDIDATE 3 ═══════════════════ -->
+        <article id="c3" class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="px-7 pt-6 pb-5 border-b border-slate-100">
+            <div class="flex items-center gap-3 flex-wrap">
+              <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-xs font-semibold">Worth exploring</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-xs font-mono">in-process</span>
+              <span class="text-slate-400 text-xs">candidate 3</span>
+            </div>
+            <h2 class="font-serif text-2xl mt-3">Give the audit-event seam depth — the interface lies</h2>
+            <p class="font-mono text-[13px] text-slate-500 mt-2">internal/charge/domain/charge.go</p>
+          </div>
+
+          <!-- mass diagram: interface taller than implementation -->
+          <div class="grid md:grid-cols-2 gap-px bg-slate-100">
+            <div class="bg-white p-6">
+              <p class="schem text-slate-400 mb-4">Before — interface promises, implementation drops</p>
+              <div class="flex items-end justify-center gap-8" style="height:240px">
+                <div class="flex flex-col items-center">
+                  <div class="w-24 bg-rose-200 border border-rose-300 rounded-t flex items-center justify-center text-[11px] text-rose-900 text-center px-1" style="height:150px">accepts<br/><code>reason</code></div>
+                  <div class="w-24 bg-slate-100 border border-slate-300 flex items-center justify-center text-[11px] text-slate-500" style="height:46px">drops it</div>
+                  <p class="schem text-slate-400 mt-2 text-[10px]">MarkFailed(reason)</p>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="w-24 bg-rose-200 border border-rose-300 rounded-t flex items-center justify-center text-[11px] text-rose-900" style="height:120px">payload</div>
+                  <div class="w-24 bg-slate-100 border border-slate-300 flex items-center justify-center text-[11px] text-slate-500" style="height:30px">{}</div>
+                  <p class="schem text-slate-400 mt-2 text-[10px]">appendEvent</p>
+                </div>
+              </div>
+              <p class="text-[12px] text-slate-500 mt-3 leading-snug">Rose = interface surface; grey = what the implementation actually records. Every <strong>PaymentEvent</strong> is <code>{}</code>; the failure <code>reason</code> handed in by the use case is silently discarded.</p>
+            </div>
+            <div class="bg-white p-6">
+              <p class="schem text-emerald-600 mb-4">After — payload flows through</p>
+              <div class="flex items-end justify-center gap-8" style="height:240px">
+                <div class="flex flex-col items-center">
+                  <div class="w-24 bg-emerald-200 border border-emerald-300 rounded-t flex items-center justify-center text-[11px] text-emerald-900" style="height:60px">reason</div>
+                  <div class="w-24 deep border border-slate-700 flex items-center justify-center text-[11px] text-emerald-200 text-center px-1" style="height:140px">records<br/>{reason}</div>
+                  <p class="schem text-slate-400 mt-2 text-[10px]">MarkFailed(reason)</p>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="w-24 bg-emerald-200 border border-emerald-300 rounded-t flex items-center justify-center text-[11px] text-emerald-900" style="height:50px">payload</div>
+                  <div class="w-24 deep border border-slate-700 flex items-center justify-center text-[11px] text-emerald-200 text-center px-1" style="height:150px">writes<br/>structured<br/>event</div>
+                  <p class="schem text-slate-400 mt-2 text-[10px]">appendEvent</p>
+                </div>
+              </div>
+              <p class="text-[12px] text-slate-500 mt-3 leading-snug">Short interface, tall implementation = deep. Reading <code>payment_events</code> now explains the Charge lifecycle.</p>
+            </div>
+          </div>
+
+          <div class="px-7 py-6 space-y-4">
+            <div class="grid sm:grid-cols-2 gap-5 text-[14px]">
+              <div><p class="schem text-slate-400 mb-1">Problem</p><p class="text-slate-700"><code>appendEvent</code> always writes <code>{}</code>; <code>MarkFailed(reason)</code> takes a reason and never persists it. The audit interface advertises more than the implementation delivers — ADR-0002 and CONTEXT make <strong>PaymentEvent</strong> the audit history, but the “failed” row records nothing.</p></div>
+              <div><p class="schem text-slate-400 mb-1">Solution</p><p class="text-slate-700"><code>appendEvent</code> takes a structured payload; transitions record their facts (failure reason, provider location/QR on activate). Event construction stays in the entity.</p></div>
+            </div>
+            <div>
+              <p class="schem text-slate-400 mb-2">Wins</p>
+              <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-1.5 text-[13px] text-slate-700 list-disc pl-5">
+                <li>locality: event shaping in the entity</li>
+                <li>leverage: the audit trail explains itself</li>
+                <li>interface stops lying about what it stores</li>
+                <li>satisfies the ADR-0002 audit intent</li>
+              </ul>
+            </div>
+            <div class="bg-rose-50 border border-rose-200 rounded-lg px-4 py-2.5 text-[13px] text-rose-900">
+              Half depth-smell, half latent bug: the Phase-1 exit checklist asserts a “failed” audit row exists — it does, but it is contentless. Worth a <code>buglog</code> entry alongside the refactor.
+            </div>
+          </div>
+        </article>
+
+        <!-- ═══════════════════ CANDIDATE 4 ═══════════════════ -->
+        <article id="c4" class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="px-7 pt-6 pb-5 border-b border-slate-100">
+            <div class="flex items-center gap-3 flex-wrap">
+              <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-xs font-semibold">Worth exploring</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-xs font-mono">in-process</span>
+              <span class="text-slate-400 text-xs">candidate 4</span>
+            </div>
+            <h2 class="font-serif text-2xl mt-3">One error-response seam — and stop leaking provider text</h2>
+            <p class="font-mono text-[13px] text-slate-500 mt-2">internal/platform/httpx/errors.go · internal/charge/api/handler.go</p>
+          </div>
+
+          <!-- cross-section: many thin rendering bands vs one band -->
+          <div class="grid md:grid-cols-2 gap-px bg-slate-100">
+            <div class="bg-white p-6">
+              <p class="schem text-slate-400 mb-4">Before — rendering scattered per branch</p>
+              <div class="space-y-1.5" style="min-height:240px">
+                <div class="h-9 border-l-4 border-slate-300 bg-stone-50 flex items-center px-3 text-[12px] text-slate-600 font-mono">StatusFor(err) — status only</div>
+                <div class="h-9 border-l-4 border-rose-400 bg-rose-50 flex items-center px-3 text-[12px] text-rose-800 font-mono">gin.H{"error": err.Error()} <span class="ml-auto text-[10px]">leaks internals</span></div>
+                <div class="h-9 border-l-4 border-amber-400 bg-amber-50 flex items-center px-3 text-[12px] text-amber-800 font-mono">mustJSON(gin.H{"error": ...})</div>
+                <div class="h-9 border-l-4 border-amber-400 bg-amber-50 flex items-center px-3 text-[12px] text-amber-800 font-mono">c.Data(status, ..., body)</div>
+                <div class="h-9 border-l-4 border-amber-400 bg-amber-50 flex items-center px-3 text-[12px] text-amber-800 font-mono">c.JSON(StatusFor(err), gin.H{...})</div>
+                <div class="h-9 border-l-4 border-rose-400 bg-rose-50 flex items-center px-3 text-[12px] text-rose-800 font-mono">"provider...: efi down" → client</div>
+              </div>
+              <p class="text-[12px] text-slate-500 mt-3 leading-snug">Every handler branch hand-rolls the body. Wrapped internal text — the EFí <strong>PixProvider</strong>’s “efi down” — reaches the caller.</p>
+            </div>
+            <div class="bg-white p-6">
+              <p class="schem text-emerald-600 mb-4">After — one consolidated band</p>
+              <div class="flex flex-col justify-center" style="min-height:240px">
+                <div class="deep rounded-lg border-l-4 border-emerald-400 p-4 text-slate-100" style="height:130px">
+                  <p class="schem text-emerald-300">httpx.WriteError(c, err)</p>
+                  <ul class="mt-2 text-[12px] text-slate-300 space-y-1">
+                    <li>· Kind → status</li>
+                    <li>· safe client body (no internal cause)</li>
+                    <li>· logs the wrapped cause server-side</li>
+                  </ul>
+                </div>
+                <p class="text-center text-[12px] text-slate-500 mt-3">handlers <code>return err</code> · stop shaping bodies</p>
+              </div>
+              <p class="text-[12px] text-slate-500 mt-3 leading-snug">Status, client-safe shape, and logging concentrate in one deep module the handlers call once.</p>
+            </div>
+          </div>
+
+          <div class="px-7 py-6 space-y-4">
+            <div class="grid sm:grid-cols-2 gap-5 text-[14px]">
+              <div><p class="schem text-slate-400 mb-1">Problem</p><p class="text-slate-700"><code>StatusFor</code> maps Kind→status, but body shaping is hand-rolled in every branch, and <code>err.Error()</code> ships wrapped internal text to clients.</p></div>
+              <div><p class="schem text-slate-400 mb-1">Solution</p><p class="text-slate-700">A single <code>WriteError(c, err)</code> (or Gin error middleware) owns status + client-safe body + server-side logging of the cause.</p></div>
+            </div>
+            <div>
+              <p class="schem text-slate-400 mb-2">Wins</p>
+              <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-1.5 text-[13px] text-slate-700 list-disc pl-5">
+                <li>locality: one place renders errors</li>
+                <li>leverage: every handler reuses it</li>
+                <li>interface shrinks: handlers return err</li>
+                <li>provider/internal detail stays server-side</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- ───────────────────────── TOP RECOMMENDATION ───────────────────────── -->
+      <section id="top-recommendation">
+        <div class="deep rounded-2xl p-8 text-slate-100 shadow-lg">
+          <p class="schem text-emerald-300">Top recommendation</p>
+          <h2 class="font-serif text-3xl mt-2">Start with <a href="#c1" class="underline decoration-emerald-400 underline-offset-4">candidate 1 — the idempotency replay seam</a></h2>
+          <p class="mt-4 text-slate-300 max-w-3xl leading-relaxed text-[15px]">
+            Highest leverage and lowest risk: it concentrates a protocol that every future write endpoint (Refund, cancel, CobV)
+            will otherwise re-copy, it aligns the build with the overview’s own stated <em>“idempotency middleware”</em>, and it shrinks
+            the fattest module in the slice. The EFí adapter’s <code class="text-emerald-300">efiClient</code> already proves this team builds
+            deep, two-adapter seams (fake in tests, SDK in prod) — apply the same move one layer up, to idempotency.
+          </p>
+          <p class="mt-5 text-slate-400 text-sm">Then 2 and 4 (both shrink the fat Charge intake handler); 3 is small and fixes a latent audit gap — fold it into file 04 before the slice ships.</p>
+        </div>
+      </section>
+
+      <footer class="text-center text-xs text-slate-400 pt-4">
+        Vocabulary: module · interface · implementation · depth · seam · adapter · leverage · locality. Domain: Charge · PaymentProvider · PixKey · Payer · PaymentEvent · txid.
+      </footer>
+
+    </main>
+  </body>
+</html>

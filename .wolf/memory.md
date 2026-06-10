@@ -116,3 +116,94 @@ Implemented File 01 of the Phase 1 plan via superpowers executing-plans, strict 
 Verified green: `go build ./...`, `go vet ./...`, `go test ./...` (unit), db integration test (testcontainers), golangci-lint, full container boot (app image + pg + migrate + /health,/ready,/live).
 Key deviations from plan: Go **1.25** (not 1.24) in go.mod/Dockerfile/CI — latest deps require it; golangci-lint rebuilt from source (v1.64.8) to match. `make up` live boot not run (host :5432 occupied by pre-existing PG) — boot verified via alt-port containers instead. Next: File 02 (tenant-provider). See cerebrum Do-Not-Repeat + Decision Log.
 | 11:02 | Session end: 25 writes across 24 files (go.mod, .gitignore, sqlc.yaml, .golangci.yml, Makefile) | 2 reads | ~11045 tok |
+
+## Session: 2026-06-10 11:09
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:09
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:20
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:20
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:20
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:20
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:22
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:22
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:22
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:26
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:27
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:27
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 11:29
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 11:36 | Created ../../../../tmp/architecture-review-20260610-113434.html | — | ~7119 |
+| 11:34 | architecture review of Phase 1 planned slice (depth lens) | docs/superpowers/plans/*, internal/* (read-only) | 4 deepening candidates → /tmp/architecture-review-20260610-113434.html | ~30k |
+| 11:37 | Session end: 1 writes across 1 files (architecture-review-20260610-113434.html) | 17 reads | ~38935 tok |
+| 11:40 | Session end: 1 writes across 1 files (architecture-review-20260610-113434.html) | 17 reads | ~38935 tok |
+
+## Session: 2026-06-10 11:53
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 11:50 | candidate 1 (idempotency seam): 3 parallel interface designs (Guard.Run minimal / policy-middleware flexible / zero-config middleware) compared | internal/charge/api/handler.go, internal/platform/idempotency/* (read-only, design phase) | recommended zero-config middleware (matches plan file 05 naming); pending user confirm + package location | ~45k |
+| 12:12 | Edited docs/superpowers/plans/2026-06-10-phase1-04-charge-aggregate.md | expanded (+10 lines) | ~275 |
+| 12:14 | Edited docs/superpowers/plans/2026-06-10-phase1-04-charge-aggregate.md | modified Middleware() | ~1774 |
+| 12:15 | Edited docs/superpowers/plans/2026-06-10-phase1-04-charge-aggregate.md | modified feat() | ~98 |
+| 12:21 | Edited docs/superpowers/plans/2026-06-10-phase1-04-charge-aggregate.md | 4→5 lines | ~160 |
+| 12:26 | Edited docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | "Idempotency-Key" → "idempotency.Middleware" | ~118 |
+| 12:27 | Edited docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | modified NewHandler() | ~404 |
+| 12:27 | Edited docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | 10→10 lines | ~88 |
+| 12:27 | Edited docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | 11→12 lines | ~108 |
+| 12:27 | Edited docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | modified feat() | ~50 |
+| 12:05 | candidate 1 implemented in plans: idempotency.Middleware (gin.HandlerFunc) added to File 04 Task 6, handler.go simplified in File 05 Task 3 (drop idem field/inline protocol), wiring updated in Tasks 4-5 | docs/superpowers/plans/2026-06-10-phase1-{04-charge-aggregate,05-create-charge-api}.md | plans now match overview's "idempotency middleware" framing; +1 unit-tested seam, no Docker | ~60k |
+| 12:31 | Session end: 9 writes across 2 files (2026-06-10-phase1-04-charge-aggregate.md, 2026-06-10-phase1-05-create-charge-api.md) | 2 reads | ~18454 tok |
+
+## Session: 2026-06-10 12:37
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|

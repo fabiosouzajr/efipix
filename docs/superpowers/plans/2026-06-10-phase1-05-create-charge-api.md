@@ -345,7 +345,7 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 **Files:**
 - Create: `internal/charge/api/handler.go`
 
-> POST requires `Idempotency-Key` (400 if absent). Fingerprint = sha256 of the raw body. Reserve → replay/conflict(422)/inflight(409)/new. On `new`, run the use case, then `SaveResult` with the final status+body so retries replay. Errors map via `httpx.StatusFor`.
+> Idempotency is enforced by `idempotency.Middleware` ([File 04](2026-06-10-phase1-04-charge-aggregate.md), `internal/platform/idempotency`), registered on `POST /charges` only — required `Idempotency-Key`, sha256 fingerprint, replay/conflict(422)/inflight(409)/new, persists the handler's response for replay. `create()` itself has zero idempotency code: read body → validate → run the use case → respond. Errors map via `httpx.StatusFor`.
 
 - [ ] **Step 1: Implement** (`internal/charge/api/handler.go`)
 
@@ -353,9 +353,7 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 package api
 
 import (
-	"bytes"
-	"crypto/sha256"
-	"encoding/hex"
+	"context"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -375,16 +373,18 @@ type Handler struct {
 	uc      *chargeapp.CreateImmediateCharge
 	repo    chargeapp.ChargeRepository
 	tenants tenantapp.Repository
-	idem    idempotency.Store
 }
 
 func NewHandler(uc *chargeapp.CreateImmediateCharge, repo chargeapp.ChargeRepository,
-	tenants tenantapp.Repository, idem idempotency.Store) *Handler {
-	return &Handler{uc: uc, repo: repo, tenants: tenants, idem: idem}
+	tenants tenantapp.Repository) *Handler {
+	return &Handler{uc: uc, repo: repo, tenants: tenants}
 }
 
-func RegisterRoutes(rg gin.IRoutes, h *Handler) {
-	rg.POST("/charges", h.create)
+// RegisterRoutes wires the charge endpoints. POST /charges runs behind
+// idempotency.Middleware (File 04): required Idempotency-Key, replay on
+// retry. GET /charges/:id is a plain read with no idempotency protocol.
+func RegisterRoutes(rg gin.IRoutes, h *Handler, idem idempotency.Store) {
+	rg.POST("/charges", idempotency.Middleware(idem), h.create)
 	rg.GET("/charges/:id", h.get)
 }
 
@@ -392,35 +392,12 @@ func (h *Handler) create(c *gin.Context) {
 	ctx := c.Request.Context()
 	res, _ := tenantctx.From(ctx)
 
-	key := c.GetHeader("Idempotency-Key")
-	if key == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Idempotency-Key header required"})
-		return
-	}
-	raw, _ := io.ReadAll(c.Request.Body)
-	c.Request.Body = io.NopCloser(bytes.NewReader(raw))
-	sum := sha256.Sum256(raw)
-	fp := hex.EncodeToString(sum[:])
-
-	rv, err := h.idem.Reserve(ctx, res.TenantID, key, fp)
+	raw, err := io.ReadAll(c.Request.Body)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "idempotency"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid body"})
 		return
 	}
-	switch rv.State {
-	case "replay":
-		c.Data(rv.StoredStatus, "application/json; charset=utf-8", rv.StoredBody)
-		return
-	case "conflict":
-		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "idempotency key reused with different body"})
-		return
-	case "inflight":
-		c.JSON(http.StatusConflict, gin.H{"error": "request in progress"})
-		return
-	}
-
 	status, body := h.process(ctx, res, raw)
-	_ = h.idem.SaveResult(ctx, res.TenantID, key, status, body)
 	c.Data(status, "application/json; charset=utf-8", body)
 }
 
@@ -479,7 +456,7 @@ Expected: exit 0.
 
 ```bash
 git add internal/charge/api/handler.go
-git commit -m "feat(api): charge create/get handlers with required idempotency
+git commit -m "feat(api): charge create/get handlers, idempotency via platform middleware
 
 Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ```
@@ -549,7 +526,7 @@ func main() {
 	idem := idempotency.NewPg(pool)
 	prov := efi.New(sp, efi.SDKFactory)
 	createUC := chargeapp.NewCreateImmediateCharge(chargeRepo, prov)
-	chargeHandler := chargeapi.NewHandler(createUC, chargeRepo, tenantRepo, idem)
+	chargeHandler := chargeapi.NewHandler(createUC, chargeRepo, tenantRepo)
 
 	r := gin.New()
 	r.Use(gin.Recovery())
@@ -557,7 +534,7 @@ func main() {
 
 	v1 := r.Group("/api/v1")
 	v1.Use(tenantapi.Middleware(resolver))
-	chargeapi.RegisterRoutes(v1, chargeHandler)
+	chargeapi.RegisterRoutes(v1, chargeHandler, idem)
 
 	srv := &http.Server{Addr: ":" + cfg.HTTPPort, Handler: r}
 	go func() {
@@ -675,13 +652,14 @@ func boot(t *testing.T, prov provider.PixProvider) *gin.Engine {
 	tenantRepo := tenantinfra.New(pool)
 	chargeRepo := chargeinfra.New(pool)
 	uc := chargeapp.NewCreateImmediateCharge(chargeRepo, prov)
-	h := chargeapi.NewHandler(uc, chargeRepo, tenantRepo, idempotency.NewPg(pool))
+	h := chargeapi.NewHandler(uc, chargeRepo, tenantRepo)
+	idem := idempotency.NewPg(pool)
 
 	gin.SetMode(gin.TestMode)
 	r := gin.New()
 	v1 := r.Group("/api/v1")
 	v1.Use(tenantapi.Middleware(tenantapp.NewResolver(tenantRepo)))
-	chargeapi.RegisterRoutes(v1, h)
+	chargeapi.RegisterRoutes(v1, h, idem)
 	return r
 }
 

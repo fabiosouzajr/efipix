@@ -8,9 +8,10 @@
 
 ---
 
-### Task 1: SecretProvider (env-JSON implementation)
+## Task 1: SecretProvider (env-JSON implementation)
 
 **Files:**
+
 - Create: `internal/platform/secrets/secrets.go`
 - Create: `internal/platform/secrets/env.go`
 - Test: `internal/platform/secrets/env_test.go`
@@ -155,6 +156,7 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ### Task 2: P12 → PEM conversion
 
 **Files:**
+
 - Create: `internal/platform/secrets/p12.go`
 - Test: `internal/platform/secrets/p12_test.go`
 
@@ -269,6 +271,7 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ### Task 3: PixProvider port + DTOs
 
 **Files:**
+
 - Create: `internal/provider/provider.go`
 
 > Provider-agnostic contract (per locked signatures). No behaviour → no unit test; exercised by Task 4's `EfiProvider` tests.
@@ -329,6 +332,7 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ### Task 4: EfiProvider — client pool + mapping (unit-tested)
 
 **Files:**
+
 - Create: `internal/provider/efi/client.go` (internal `efiClient` seam + types)
 - Create: `internal/provider/efi/efi.go` (`EfiProvider`)
 - Test: `internal/provider/efi/efi_test.go`
@@ -552,6 +556,7 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ### Task 5: Real SDK-backed efiClient + SDK review note
 
 **Files:**
+
 - Create: `internal/provider/efi/sdkclient.go`
 - Create: `internal/provider/efi/sdkclient_homolog_test.go` (tagged `homolog`)
 - Create: `docs/efi-sdk-review.md`
@@ -721,11 +726,13 @@ func TestHomologCreateAndGet(t *testing.T) {
 - [ ] **Step 4: Verify compilation (unit scope stays green; homolog tag compiles)**
 
 Run:
+
 ```bash
 go build ./internal/provider/efi/
 go vet -tags=homolog ./internal/provider/efi/
 go test ./internal/provider/efi/   # unit tests still pass
 ```
+
 Expected: builds; unit tests PASS. **If the SDK import path or method names differ from the installed version, fix them now and record the actual API in `docs/efi-sdk-review.md`.**
 
 - [ ] **Step 5: Write the SDK review note** (`docs/efi-sdk-review.md`)

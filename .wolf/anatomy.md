@@ -1,7 +1,11 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-10T13:57:25.197Z
-> Files: 44 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-10T15:27:36.365Z
+> Files: 45 tracked | Anatomy hits: 0 | Misses: 0
+
+## ../../../../tmp/
+
+- `architecture-review-20260610-113434.html` — Architecture review — efipix (Pix payment platform) (~7119 tok)
 
 ## ./
 
@@ -65,8 +69,8 @@
 - `2026-06-10-phase1-01-foundation.md` — Phase 1 · File 01 — Foundation (~6555 tok)
 - `2026-06-10-phase1-02-tenant-provider.md` — Phase 1 · File 02 — Tenant, Provider Accounts, Resolution & API-Key Auth (~6317 tok)
 - `2026-06-10-phase1-03-secrets-efi-provider.md` — Phase 1 · File 03 — Secrets, PixProvider Port & EFí Adapter (~5769 tok)
-- `2026-06-10-phase1-04-charge-aggregate.md` — Phase 1 · File 04 — Charge Aggregate: Domain, Schema, Repository, Idempotency (~7182 tok)
-- `2026-06-10-phase1-05-create-charge-api.md` — Phase 1 · File 05 — Create-Charge Use Case, API, Wiring & End-to-End (~6234 tok)
+- `2026-06-10-phase1-04-charge-aggregate.md` — Phase 1 · File 04 — Charge Aggregate: Domain, Schema, Repository, Idempotency (~8987 tok)
+- `2026-06-10-phase1-05-create-charge-api.md` — Phase 1 · File 05 — Create-Charge Use Case, API, Wiring & End-to-End (~6144 tok)
 
 ## docs/superpowers/specs/
 
