@@ -1,0 +1,34 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: pix
+      POSTGRES_PASSWORD: pix
+      POSTGRES_DB: pix
+    ports: ["5432:5432"]
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pix"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports: ["5672:5672", "15672:15672"]
+  app:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile
+    environment:
+      DATABASE_URL: postgres://pix_app:pix_app_pw@postgres:5432/pix?sslmode=disable
+      DATABASE_ADMIN_URL: postgres://pix:pix@postgres:5432/pix?sslmode=disable
+      REDIS_URL: redis://redis:6379/0
+      EFI_SANDBOX: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports: ["8080:8080"]
