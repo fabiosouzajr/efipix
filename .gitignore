@@ -1,0 +1,7 @@
+/bin/
+*.env
+.env
+coverage.out
+/tmp/
+*.pem
+*.p12

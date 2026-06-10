@@ -1,0 +1,128 @@
+[2026-06-09T15:00:54.666Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:54.668Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:54.668Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:54.668Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:54.668Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:54.669Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:54.670Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:54.670Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:54.865Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:54.867Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:54.867Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:54.867Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:54.868Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:54.869Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:54.870Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:54.870Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:55.056Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:55.058Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:55.058Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:55.059Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:55.059Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:55.060Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:55.060Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:55.061Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:55.257Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:55.259Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:55.259Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:55.259Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:55.261Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:55.262Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:55.262Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:55.263Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:55.469Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:55.470Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:55.471Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:55.471Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:55.471Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:55.472Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:55.473Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:55.474Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:55.673Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:55.675Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:55.675Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:55.676Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:55.676Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:55.677Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:55.677Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:55.678Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:55.869Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:55.870Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:55.871Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:55.872Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:55.872Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:55.873Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:55.873Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:55.874Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:56.062Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:56.064Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:56.064Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:56.064Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:56.064Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:56.065Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:56.066Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:56.066Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:56.259Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:56.260Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:56.261Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:56.261Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:56.261Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:56.262Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:56.263Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:56.263Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:56.458Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:56.459Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:56.459Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:56.459Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:56.460Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:56.462Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:56.462Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:56.463Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:56.656Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:56.658Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:56.658Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:56.658Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:56.659Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:56.660Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:56.660Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:56.661Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:56.856Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:56.857Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:56.858Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:56.858Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:56.858Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:56.859Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:56.860Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:56.860Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:57.054Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:57.055Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:57.056Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:57.056Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:57.056Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:57.057Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:57.058Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:57.058Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:57.254Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:57.256Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:57.257Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:57.257Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:57.257Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:57.258Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:57.259Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:57.259Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:57.448Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:57.449Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:57.451Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:57.451Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:57.452Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:57.453Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:57.453Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:57.453Z] [INFO] Dashboard server listening on port 18791
+[2026-06-09T15:00:57.645Z] [INFO] Scheduled task: Full anatomy rescan (0 */6 * * *)
+[2026-06-09T15:00:57.647Z] [INFO] Scheduled task: Consolidate old memory (0 2 * * *)
+[2026-06-09T15:00:57.648Z] [INFO] Scheduled task: Token audit report (0 0 * * 1)
+[2026-06-09T15:00:57.648Z] [INFO] Scheduled task: Cerebrum reflection (0 3 * * 0)
+[2026-06-09T15:00:57.648Z] [INFO] Scheduled task: AI suggestions (0 4 * * 1)
+[2026-06-09T15:00:57.649Z] [INFO] File watcher started on .wolf/
+[2026-06-09T15:00:57.650Z] [INFO] OpenWolf daemon started
+[2026-06-09T15:00:57.650Z] [INFO] Dashboard server listening on port 18791
