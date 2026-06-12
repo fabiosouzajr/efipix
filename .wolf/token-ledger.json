@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-06-09T15:00:53.939Z",
   "lifetime": {
-    "total_tokens_estimated": 319383,
-    "total_reads": 84,
-    "total_writes": 216,
+    "total_tokens_estimated": 334941,
+    "total_reads": 96,
+    "total_writes": 226,
     "total_sessions": 25,
-    "anatomy_hits": 59,
+    "anatomy_hits": 70,
     "anatomy_misses": 21,
-    "repeated_reads_blocked": 22,
-    "estimated_savings_vs_bare_cli": 131657
+    "repeated_reads_blocked": 23,
+    "estimated_savings_vs_bare_cli": 134585
   },
   "sessions": [
     {
@@ -2054,6 +2054,145 @@
         "writes_count": 15,
         "repeated_reads_blocked": 0,
         "anatomy_lookups": 3
+      }
+    },
+    {
+      "id": "session-2026-06-12-1122",
+      "started": "2026-06-12T14:22:01.267Z",
+      "ended": "2026-06-12T14:38:48.015Z",
+      "reads": [
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md",
+          "tokens_estimated": 6064,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/money/money.go",
+          "tokens_estimated": 239,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/provider/provider.go",
+          "tokens_estimated": 207,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/tenantctx/tenantctx.go",
+          "tokens_estimated": 96,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/cmd/server/main.go",
+          "tokens_estimated": 310,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/config/config.go",
+          "tokens_estimated": 217,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/errors/errors.go",
+          "tokens_estimated": 187,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/api/middleware.go",
+          "tokens_estimated": 326,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/provider/efi/efi.go",
+          "tokens_estimated": 613,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/db/seed/dev.sql",
+          "tokens_estimated": 218,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/charge/infra/repository_test.go",
+          "tokens_estimated": 831,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/charge/app/create_test.go",
+          "tokens_estimated": 728,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/home/fj/git/efipix/internal/charge/app/create_test.go",
+          "tokens_estimated": 743,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/charge/app/create.go",
+          "tokens_estimated": 756,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/httpx/errors_test.go",
+          "tokens_estimated": 218,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/httpx/errors.go",
+          "tokens_estimated": 150,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/charge/api/dto.go",
+          "tokens_estimated": 307,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/charge/api/handler.go",
+          "tokens_estimated": 819,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/cmd/server/main.go",
+          "tokens_estimated": 625,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/charge/api/e2e_test.go",
+          "tokens_estimated": 1384,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/charge/app/create_test.go",
+          "tokens_estimated": 178,
+          "action": "edit"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/charge/app/create_test.go",
+          "tokens_estimated": 342,
+          "action": "edit"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 10036,
+        "output_tokens_estimated": 5522,
+        "reads_count": 12,
+        "writes_count": 10,
+        "repeated_reads_blocked": 1,
+        "anatomy_lookups": 11
       }
     }
   ],
