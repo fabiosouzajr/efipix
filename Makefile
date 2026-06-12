@@ -1,4 +1,4 @@
-.PHONY: build test test-int lint migrate-up migrate-down sqlc up down
+.PHONY: build test test-int lint migrate-up migrate-down seed-dev sqlc up down
 build:
 	go build -o bin/server ./cmd/server
 test:
@@ -13,6 +13,8 @@ migrate-up:
 	goose -dir db/migrations postgres "$$DATABASE_ADMIN_URL" up
 migrate-down:
 	goose -dir db/migrations postgres "$$DATABASE_ADMIN_URL" down
+seed-dev:
+	psql "$$DATABASE_ADMIN_URL" -f db/seed/dev.sql
 up:
 	docker compose -f deploy/compose/docker-compose.yml up -d
 down:
