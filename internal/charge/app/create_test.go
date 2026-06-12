@@ -14,21 +14,29 @@ import (
 )
 
 type fakeRepo struct {
-	created  *domain.Charge
-	saved    *domain.Charge
-	savedOut []OutboxEvent
-	store    map[string]*domain.Charge
+	created   *domain.Charge
+	saved     *domain.Charge
+	savedOut  []OutboxEvent
+	store     map[string]*domain.Charge
+	createErr error
+	saveErr   error
 }
 
 func newFakeRepo() *fakeRepo { return &fakeRepo{store: map[string]*domain.Charge{}} }
 
 func (f *fakeRepo) Create(_ context.Context, c *domain.Charge) error {
+	if f.createErr != nil {
+		return f.createErr
+	}
 	f.created = c
 	cp := *c
 	f.store[c.ID] = &cp
 	return nil
 }
 func (f *fakeRepo) Save(_ context.Context, c *domain.Charge, out ...OutboxEvent) error {
+	if f.saveErr != nil {
+		return f.saveErr
+	}
 	f.saved = c
 	f.savedOut = out
 	cp := *c
@@ -87,4 +95,40 @@ func TestCreateProviderFailureMarksFailed(t *testing.T) {
 	require.Error(t, err)
 	require.Equal(t, domain.StatusFailed, repo.saved.Status)
 	require.Empty(t, repo.savedOut, "no outbox event on failure")
+}
+
+func TestCreateInvalidCmd(t *testing.T) {
+	repo := newFakeRepo()
+	uc := NewCreateImmediateCharge(repo, &fakeProv{})
+	c := cmd()
+	c.Amount = 0
+	_, err := uc.Execute(context.Background(), c)
+	require.Error(t, err)
+	require.Nil(t, repo.created)
+}
+
+func TestCreateRepoCreateError(t *testing.T) {
+	repo := newFakeRepo()
+	repo.createErr = errors.New("db down")
+	uc := NewCreateImmediateCharge(repo, &fakeProv{})
+	_, err := uc.Execute(context.Background(), cmd())
+	require.Error(t, err)
+	require.Nil(t, repo.saved)
+}
+
+func TestCreateRepoSaveErrorOnSuccess(t *testing.T) {
+	repo := newFakeRepo()
+	uc := NewCreateImmediateCharge(repo, &fakeProv{})
+	repo.saveErr = errors.New("db down")
+	_, err := uc.Execute(context.Background(), cmd())
+	require.Error(t, err)
+}
+
+func TestCreateRepoSaveErrorOnFailure(t *testing.T) {
+	repo := newFakeRepo()
+	repo.saveErr = errors.New("db down")
+	uc := NewCreateImmediateCharge(repo, &fakeProv{fail: true})
+	_, err := uc.Execute(context.Background(), cmd())
+	require.Error(t, err)
+	require.Equal(t, "db down", err.Error())
 }
