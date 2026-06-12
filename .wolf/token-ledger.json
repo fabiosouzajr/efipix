@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-06-09T15:00:53.939Z",
   "lifetime": {
-    "total_tokens_estimated": 247893,
-    "total_reads": 52,
-    "total_writes": 146,
-    "total_sessions": 23,
-    "anatomy_hits": 39,
+    "total_tokens_estimated": 273275,
+    "total_reads": 66,
+    "total_writes": 180,
+    "total_sessions": 24,
+    "anatomy_hits": 53,
     "anatomy_misses": 9,
     "repeated_reads_blocked": 22,
-    "estimated_savings_vs_bare_cli": 127657
+    "estimated_savings_vs_bare_cli": 130457
   },
   "sessions": [
     {
@@ -1410,6 +1410,294 @@
         "writes_count": 6,
         "repeated_reads_blocked": 4,
         "anatomy_lookups": 2
+      }
+    },
+    {
+      "id": "session-2026-06-12-0931",
+      "started": "2026-06-12T12:31:37.919Z",
+      "ended": "2026-06-12T12:48:05.460Z",
+      "reads": [
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md",
+          "tokens_estimated": 6383,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/db/migrations/00001_bootstrap.sql",
+          "tokens_estimated": 108,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/db/db.go",
+          "tokens_estimated": 513,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/errors/errors.go",
+          "tokens_estimated": 187,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/Makefile",
+          "tokens_estimated": 140,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/go.mod",
+          "tokens_estimated": 11,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/deploy/compose/initdb/00-roles.sql",
+          "tokens_estimated": 112,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/home/fj/git/efipix/db/migrations/00002_tenants.sql",
+          "tokens_estimated": 820,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/db/seed/dev.sql",
+          "tokens_estimated": 233,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/Makefile",
+          "tokens_estimated": 23,
+          "action": "edit"
+        },
+        {
+          "file": "/home/fj/git/efipix/Makefile",
+          "tokens_estimated": 39,
+          "action": "edit"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/domain/domain.go",
+          "tokens_estimated": 121,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/tenantctx/tenantctx_test.go",
+          "tokens_estimated": 126,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/app/apikey_test.go",
+          "tokens_estimated": 85,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/tenantctx/tenantctx.go",
+          "tokens_estimated": 103,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/app/apikey.go",
+          "tokens_estimated": 71,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/app/repository.go",
+          "tokens_estimated": 267,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/infra/repository.go",
+          "tokens_estimated": 821,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/db/migrations/00002_tenants.sql",
+          "tokens_estimated": 141,
+          "action": "edit"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/infra/repository_test.go",
+          "tokens_estimated": 685,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/app/resolver_test.go",
+          "tokens_estimated": 536,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/app/resolver.go",
+          "tokens_estimated": 219,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/api/middleware_test.go",
+          "tokens_estimated": 598,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/api/middleware.go",
+          "tokens_estimated": 349,
+          "action": "create"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 7454,
+        "output_tokens_estimated": 5237,
+        "reads_count": 7,
+        "writes_count": 17,
+        "repeated_reads_blocked": 0,
+        "anatomy_lookups": 7
+      }
+    },
+    {
+      "id": "session-2026-06-12-0931",
+      "started": "2026-06-12T12:31:37.919Z",
+      "ended": "2026-06-12T12:58:57.066Z",
+      "reads": [
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md",
+          "tokens_estimated": 6383,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/db/migrations/00001_bootstrap.sql",
+          "tokens_estimated": 108,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/db/db.go",
+          "tokens_estimated": 513,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/errors/errors.go",
+          "tokens_estimated": 187,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/Makefile",
+          "tokens_estimated": 140,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/go.mod",
+          "tokens_estimated": 11,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/deploy/compose/initdb/00-roles.sql",
+          "tokens_estimated": 112,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/home/fj/git/efipix/db/migrations/00002_tenants.sql",
+          "tokens_estimated": 820,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/db/seed/dev.sql",
+          "tokens_estimated": 233,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/Makefile",
+          "tokens_estimated": 23,
+          "action": "edit"
+        },
+        {
+          "file": "/home/fj/git/efipix/Makefile",
+          "tokens_estimated": 39,
+          "action": "edit"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/domain/domain.go",
+          "tokens_estimated": 121,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/tenantctx/tenantctx_test.go",
+          "tokens_estimated": 126,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/app/apikey_test.go",
+          "tokens_estimated": 85,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/tenantctx/tenantctx.go",
+          "tokens_estimated": 103,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/app/apikey.go",
+          "tokens_estimated": 71,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/app/repository.go",
+          "tokens_estimated": 267,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/infra/repository.go",
+          "tokens_estimated": 821,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/db/migrations/00002_tenants.sql",
+          "tokens_estimated": 141,
+          "action": "edit"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/infra/repository_test.go",
+          "tokens_estimated": 685,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/app/resolver_test.go",
+          "tokens_estimated": 536,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/app/resolver.go",
+          "tokens_estimated": 219,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/api/middleware_test.go",
+          "tokens_estimated": 598,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/tenant/api/middleware.go",
+          "tokens_estimated": 349,
+          "action": "create"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 7454,
+        "output_tokens_estimated": 5237,
+        "reads_count": 7,
+        "writes_count": 17,
+        "repeated_reads_blocked": 0,
+        "anatomy_lookups": 7
       }
     }
   ],

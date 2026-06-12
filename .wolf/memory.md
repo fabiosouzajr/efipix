@@ -267,3 +267,22 @@ Key deviations from plan: Go **1.25** (not 1.24) in go.mod/Dockerfile/CI — lat
 | 09:42 | Created internal/tenant/app/resolver.go | — | ~204 |
 | 09:43 | Created internal/tenant/api/middleware_test.go | — | ~558 |
 | 09:43 | Created internal/tenant/api/middleware.go | — | ~326 |
+| 09:48 | Session end: 17 writes across 14 files (00002_tenants.sql, dev.sql, Makefile, domain.go, tenantctx_test.go) | 7 reads | ~12691 tok |
+| 09:58 | Session end: 17 writes across 14 files (00002_tenants.sql, dev.sql, Makefile, domain.go, tenantctx_test.go) | 7 reads | ~12691 tok |
+| 10:16 | Created internal/platform/secrets/secrets.go | — | ~79 |
+| 10:16 | Created internal/platform/secrets/env_test.go | — | ~273 |
+| 10:16 | Created internal/platform/secrets/env.go | — | ~343 |
+| 10:17 | Created internal/platform/secrets/p12_test.go | — | ~301 |
+| 10:18 | Created internal/platform/secrets/p12.go | — | ~193 |
+| 10:18 | Created internal/provider/provider.go | — | ~207 |
+| 10:19 | Created internal/provider/efi/client.go | — | ~214 |
+| 10:20 | Created internal/provider/efi/efi_test.go | — | ~630 |
+| 10:20 | Created internal/provider/efi/efi.go | — | ~613 |
+
+## Session: 2026-06-12 10:44
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 10:46 | Created internal/provider/efi/sdkclient.go | — | ~1067 |
+| 10:46 | Created internal/provider/efi/sdkclient_homolog_test.go | — | ~319 |
+| 10:49 | Created docs/efi-sdk-review.md | — | ~1031 |

@@ -20,6 +20,7 @@
 - **golangci-lint must be built with go ≥ the module's targeted version.** A prebuilt release (v1.62.2, built with go1.23) refuses a go1.25 module ("language version used to build golangci-lint is lower than targeted"). Fix: `go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8` so it builds with the local toolchain.
 - Integration tests are tagged `//go:build integration` and excluded from `go test ./...`; run with `-tags=integration` (needs Docker). `db` package thus shows "no test files" in the unit run — expected.
 - `~/go/bin` (goose, golangci-lint) is not on PATH by default in this shell — prefix commands with `export PATH="$PATH:/home/fj/go/bin"`.
+- **`github.com/efipay/sdk-go-apis-efi@v1.4.0` real API** (plan File 03 Task 5 had placeholders): `pix.NewEfiPay(cfg map[string]interface{}) *pix` returns an **unexported** type — capture via a local interface, not `*efipix.Efipay`. Required `cfg` keys: `client_id`, `client_secret`, `CA` (cert PEM **file path**, not bytes), `Key` (key PEM file path), `sandbox` (bool), `timeout` (int) — all unchecked type assertions, missing/wrong type **panics**. Create-charge method is `CreateCharge(txid, body)` (PUT /v2/cob/:txid), detail is `DetailCharge(txid)` (GET /v2/cob/:txid) — not `PixCreateCharge`/`PixDetailCharge`. QR image (`imagemQrcode`) isn't on the cob resource; needs separate `PixGenerateQRCode(locID)` -> GET /v2/loc/:id/qrcode. Full notes in `docs/efi-sdk-review.md`.
 
 ## Do-Not-Repeat
 

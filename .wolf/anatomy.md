@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T12:43:17.112Z
-> Files: 59 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T13:49:22.673Z
+> Files: 71 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../../tmp/
 
@@ -57,6 +57,7 @@
 
 ## docs/
 
+- `efi-sdk-review.md` — EFí Go SDK Capability Review (Phase 1) (~967 tok)
 
 ## docs/adr/
 
@@ -111,10 +112,30 @@
 - `money_test.go` — TestCentavosString, TestParseString (~147 tok)
 - `money.go` — ParseString (~239 tok)
 
+## internal/platform/secrets/
+
+- `env_test.go` — TestEnvProviderCredentials (~273 tok)
+- `env.go` — Struct: envEntry (~343 tok)
+- `p12_test.go` — TestP12ToPEM (~301 tok)
+- `p12.go` — P12ToPEM (~193 tok)
+- `secrets.go` — Interface: SecretProvider (~79 tok)
+
 ## internal/platform/tenantctx/
 
 - `tenantctx_test.go` — TestRoundTrip (~118 tok)
 - `tenantctx.go` — Struct: Resolved (~96 tok)
+
+## internal/provider/
+
+- `provider.go` — Interface: PixProvider (~207 tok)
+
+## internal/provider/efi/
+
+- `client.go` — Interface: efiClient (~214 tok)
+- `efi_test.go` — Struct: fakeClient (~630 tok)
+- `efi.go` — Struct: EfiProvider (~613 tok)
+- `sdkclient_homolog_test.go` — go:build homolog (~319 tok)
+- `sdkclient.go` — Interface: efiSDKClient (~1067 tok)
 
 ## internal/tenant/api/
 
