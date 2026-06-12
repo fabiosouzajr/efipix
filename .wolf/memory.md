@@ -287,3 +287,16 @@ Key deviations from plan: Go **1.25** (not 1.24) in go.mod/Dockerfile/CI — lat
 | 10:46 | Created internal/provider/efi/sdkclient_homolog_test.go | — | ~319 |
 | 10:49 | Created docs/efi-sdk-review.md | — | ~1031 |
 | 10:57 | Session end: 3 writes across 3 files (sdkclient.go, sdkclient_homolog_test.go, efi-sdk-review.md) | 3 reads | ~2589 tok |
+| 11:00 | Session end: 3 writes across 3 files (sdkclient.go, sdkclient_homolog_test.go, efi-sdk-review.md) | 3 reads | ~2589 tok |
+| 11:02 | Created db/migrations/00003_charges.sql | — | ~1284 |
+| 11:04 | Created internal/charge/domain/charge_test.go | — | ~287 |
+| 11:04 | Created internal/charge/domain/charge.go | — | ~729 |
+| 11:04 | Created internal/charge/domain/transitions_test.go | — | ~260 |
+| 11:05 | Edited internal/charge/domain/charge.go | modified appendEvent() | ~243 |
+| 11:06 | Created internal/charge/app/repository.go | — | ~207 |
+| 11:07 | Created internal/charge/infra/repository.go | — | ~1146 |
+| 11:07 | Created internal/charge/infra/repository_test.go | — | ~831 |
+| 11:09 | Created internal/platform/idempotency/idempotency.go | — | ~535 |
+| 11:09 | Created internal/platform/idempotency/middleware.go | — | ~821 |
+| 11:09 | Created internal/platform/idempotency/middleware_test.go | — | ~729 |
+| 11:09 | Created internal/platform/idempotency/idempotency_test.go | — | ~572 |

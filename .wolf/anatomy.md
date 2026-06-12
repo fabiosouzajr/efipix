@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T13:49:22.673Z
-> Files: 71 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T14:09:55.675Z
+> Files: 82 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../../tmp/
 
@@ -37,6 +37,7 @@
 
 - `00001_bootstrap.sql` — +goose Up (~108 tok)
 - `00002_tenants.sql` — +goose Up (~870 tok)
+- `00003_charges.sql` — +goose Up (~1284 tok)
 
 ## db/seed/
 
@@ -82,6 +83,21 @@
 
 - `2026-06-09-pix-payment-platform-design.md` — Design Spec — Enterprise Pix Payment Platform (EFí) (~8261 tok)
 
+## internal/charge/app/
+
+- `repository.go` — Interface: ChargeRepository (~207 tok)
+
+## internal/charge/domain/
+
+- `charge_test.go` — TestNewTxidFormat, TestNewImmediateCreatesCreated, TestNewImmediateValidates (~287 tok)
+- `charge.go` — Struct: Payer (~918 tok)
+- `transitions_test.go` — TestMarkActiveFromCreated, TestMarkActiveIllegalFromFailed, TestMarkFailedFromCreated (~260 tok)
+
+## internal/charge/infra/
+
+- `repository_test.go` — go:build integration (~831 tok)
+- `repository.go` — Struct: Repository (~1146 tok)
+
 ## internal/platform/config/
 
 - `config_test.go` — TestLoadDefaultsAndRequired, TestLoadMissingRequired (~142 tok)
@@ -101,6 +117,13 @@
 
 - `health_test.go` — TestEndpoints, TestReadyFailsWhenDepDown (~231 tok)
 - `health.go` — Register (~179 tok)
+
+## internal/platform/idempotency/
+
+- `idempotency_test.go` — go:build integration (~572 tok)
+- `idempotency.go` — Interface: Store (~535 tok)
+- `middleware_test.go` — Struct: fakeStore (~729 tok)
+- `middleware.go` — Struct: bufferingWriter (~821 tok)
 
 ## internal/platform/logging/
 
