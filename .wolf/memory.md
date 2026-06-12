@@ -286,3 +286,4 @@ Key deviations from plan: Go **1.25** (not 1.24) in go.mod/Dockerfile/CI — lat
 | 10:46 | Created internal/provider/efi/sdkclient.go | — | ~1067 |
 | 10:46 | Created internal/provider/efi/sdkclient_homolog_test.go | — | ~319 |
 | 10:49 | Created docs/efi-sdk-review.md | — | ~1031 |
+| 10:57 | Session end: 3 writes across 3 files (sdkclient.go, sdkclient_homolog_test.go, efi-sdk-review.md) | 3 reads | ~2589 tok |

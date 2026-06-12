@@ -2,12 +2,12 @@
   "version": 1,
   "created_at": "2026-06-09T15:00:53.939Z",
   "lifetime": {
-    "total_tokens_estimated": 273275,
-    "total_reads": 66,
-    "total_writes": 180,
+    "total_tokens_estimated": 275864,
+    "total_reads": 69,
+    "total_writes": 183,
     "total_sessions": 24,
     "anatomy_hits": 53,
-    "anatomy_misses": 9,
+    "anatomy_misses": 12,
     "repeated_reads_blocked": 22,
     "estimated_savings_vs_bare_cli": 130457
   },
@@ -1698,6 +1698,56 @@
         "writes_count": 17,
         "repeated_reads_blocked": 0,
         "anatomy_lookups": 7
+      }
+    },
+    {
+      "id": "session-2026-06-12-1044",
+      "started": "2026-06-12T13:44:47.764Z",
+      "ended": "2026-06-12T13:57:32.465Z",
+      "reads": [
+        {
+          "file": "/home/fj/go/pkg/mod/github.com/efipay/sdk-go-apis-efi@v1.4.0/src/efipay/pix/endpoints_pix.go",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/go/pkg/mod/github.com/efipay/sdk-go-apis-efi@v1.4.0/src/efipay/pix/requester_pix.go",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/go/pkg/mod/github.com/efipay/sdk-go-apis-efi@v1.4.0/examples/configs",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/home/fj/git/efipix/internal/provider/efi/sdkclient.go",
+          "tokens_estimated": 1143,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/provider/efi/sdkclient_homolog_test.go",
+          "tokens_estimated": 341,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/efi-sdk-review.md",
+          "tokens_estimated": 1105,
+          "action": "create"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 0,
+        "output_tokens_estimated": 2589,
+        "reads_count": 3,
+        "writes_count": 3,
+        "repeated_reads_blocked": 0,
+        "anatomy_lookups": 0
       }
     }
   ],
