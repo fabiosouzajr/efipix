@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T14:58:29.663Z
-> Files: 95 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T15:24:53.421Z
+> Files: 97 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../../tmp/
 
@@ -69,6 +69,8 @@
 - `0003-multi-tenant-shared-db-provider-account.md` — 3. Multi-tenancy via shared DB + RLS, with account identity on payment_providers (~816 tok)
 - `0003-multi-tenant-shared-db-provider-account.md` — shared-DB+RLS, account identity on payment_providers, secrets keyed by provider_id (~700 tok)
 - `0004-webhook-ingress-mtls-termination.md` — 4. Inbound webhook mTLS terminated at the proxy, with app-level hmac + IP allowlist (~754 tok)
+- `0005-cobv-due-date-rule-schema.md` — 5. CobV due-date rule schema: charge_discounts table and generic fine/interest value columns (~619 tok)
+- `0006-post-charges-cobv-only.md` — 6. POST /api/v1/charges issues CobV only (Cob stays dormant in the domain) (~456 tok)
 
 ## docs/superpowers/plans/
 
@@ -83,11 +85,14 @@
 
 - `2026-06-09-pix-payment-platform-design.md` — Design Spec — Enterprise Pix Payment Platform (EFí) (~8453 tok)
 - `2026-06-10-phase1-tenants-auth-immediate-charge-spec.md` — Phase 1 Spec — Tenants, EFí Auth & Immediate Charges (Cob) (~1676 tok)
-- `2026-06-10-phase2-due-date-charges-spec.md` — Phase 2 Spec — Due-Date Charges (CobV) with Fine, Interest, Discount, Abatement (~1416 tok)
+- `2026-06-10-phase2-due-date-charges-spec.md` — Phase 2 Spec — Due-Date Charges (CobV) with Fine, Interest, Discount, Abatement (~2439 tok)
 - `2026-06-10-phase3-webhooks-lifecycle-refunds-spec.md` — Phase 3 Spec — Webhooks, Payment Lifecycle, Refunds & Reconciliation (~1952 tok)
 - `2026-06-10-phase4-notifications-forwarding-spec.md` — Phase 4 Spec — Notifications & Webhook Forwarding (~1433 tok)
 - `2026-06-10-phase5-reporting-spec.md` — Phase 5 Spec — Reporting & Exports (~1127 tok)
 - `2026-06-10-phase6-production-hardening-spec.md` — Phase 6 Spec — Production Hardening: Security, Observability, Resilience, Deploy (~1608 tok)
+
+## docs/superpowers/specs/ (per-phase)
+
 
 ## internal/charge/api/
 
@@ -205,12 +210,3 @@
 
 - `0004-webhook-ingress-mtls-termination.md` — proxy-terminated mTLS + app hmac + IP allowlist 34.193.116.226 (~600 tok)
 - `CONTEXT.md` — ubiquitous-language glossary for the Pix domain (~900 tok)
-
-## docs/superpowers/specs/ (per-phase)
-
-- `2026-06-10-phase1-tenants-auth-immediate-charge-spec.md` — Phase 1 scoped spec (foundation+tenants+Cob) (~1.3k tok)
-- `2026-06-10-phase2-due-date-charges-spec.md` — Phase 2 CobV + multa/juros/desconto/abatimento (~1.2k tok)
-- `2026-06-10-phase3-webhooks-lifecycle-refunds-spec.md` — Phase 3 webhooks/lifecycle/refunds/recon + outbox relay (~1.6k tok)
-- `2026-06-10-phase4-notifications-forwarding-spec.md` — Phase 4 notifications + HMAC forwarding (~1.3k tok)
-- `2026-06-10-phase5-reporting-spec.md` — Phase 5 reports + CSV/XLSX/JSON exports (~1.1k tok)
-- `2026-06-10-phase6-production-hardening-spec.md` — Phase 6 security/observability/resilience/deploy (~1.5k tok)

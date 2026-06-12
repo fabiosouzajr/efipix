@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-06-09T15:00:53.939Z",
   "lifetime": {
-    "total_tokens_estimated": 376840,
-    "total_reads": 120,
-    "total_writes": 253,
-    "total_sessions": 26,
-    "anatomy_hits": 92,
-    "anatomy_misses": 21,
+    "total_tokens_estimated": 408160,
+    "total_reads": 139,
+    "total_writes": 262,
+    "total_sessions": 27,
+    "anatomy_hits": 107,
+    "anatomy_misses": 25,
     "repeated_reads_blocked": 25,
-    "estimated_savings_vs_bare_cli": 140441
+    "estimated_savings_vs_bare_cli": 143441
   },
   "sessions": [
     {
@@ -2522,6 +2522,182 @@
         "writes_count": 7,
         "repeated_reads_blocked": 0,
         "anatomy_lookups": 0
+      }
+    },
+    {
+      "id": "session-2026-06-12-1148",
+      "started": "2026-06-12T14:48:49.022Z",
+      "ended": "2026-06-12T15:21:47.359Z",
+      "reads": [
+        {
+          "file": "/home/fj/git/efipix/CONTEXT.md",
+          "tokens_estimated": 1024,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/adr/0001-charge-lifecycle-status-model.md",
+          "tokens_estimated": 984,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/adr/0002-client-defined-txid-persist-first.md",
+          "tokens_estimated": 608,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/db/migrations/00003_charges.sql",
+          "tokens_estimated": 1284,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/charge/domain/charge.go",
+          "tokens_estimated": 918,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/efi-sdk-review.md",
+          "tokens_estimated": 967,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/provider/provider.go",
+          "tokens_estimated": 207,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/provider/efi/sdkclient.go",
+          "tokens_estimated": 1067,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/provider/efi/efi.go",
+          "tokens_estimated": 613,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/platform/money/money.go",
+          "tokens_estimated": 239,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/charge/api/dto.go",
+          "tokens_estimated": 287,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/internal/charge/api/handler.go",
+          "tokens_estimated": 764,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/go/pkg/mod/github.com/efipay/sdk-go-apis-efi@v1.4.0/examples/pix/cobv/pixCreateDueCharge.go",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/go/pkg/mod/github.com/efipay/sdk-go-apis-efi@v1.4.0/examples/pix/cobv/pixDetailDueCharge.go",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/specs/2026-06-09-pix-payment-platform-design.md",
+          "tokens_estimated": 8453,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/specs/2026-06-10-phase1-tenants-auth-immediate-charge-spec.md",
+          "tokens_estimated": 1676,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/go/pkg/mod/github.com/efipay/sdk-go-apis-efi@v1.4.0/examples/pix/automatic/jornada4/pixCreateDueCharge.go",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/db/seed/dev.sql",
+          "tokens_estimated": 218,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/fj/git/efipix/.claude/skills/grill-with-docs/ADR-FORMAT.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/specs/2026-06-10-phase1-tenants-auth-immediate-charge-spec.md",
+          "tokens_estimated": 1916,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/specs/2026-06-10-phase2-due-date-charges-spec.md",
+          "tokens_estimated": 1619,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/specs/2026-06-10-phase3-webhooks-lifecycle-refunds-spec.md",
+          "tokens_estimated": 2231,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/specs/2026-06-10-phase4-notifications-forwarding-spec.md",
+          "tokens_estimated": 1638,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/specs/2026-06-10-phase5-reporting-spec.md",
+          "tokens_estimated": 1288,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/specs/2026-06-10-phase6-production-hardening-spec.md",
+          "tokens_estimated": 1838,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/superpowers/specs/2026-06-09-pix-payment-platform-design.md",
+          "tokens_estimated": 253,
+          "action": "edit"
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/adr/0005-cobv-due-date-rule-schema.md",
+          "tokens_estimated": 707,
+          "action": "create"
+        },
+        {
+          "file": "/home/fj/git/efipix/docs/adr/0006-post-charges-cobv-only.md",
+          "tokens_estimated": 521,
+          "action": "create"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 19309,
+        "output_tokens_estimated": 12011,
+        "reads_count": 19,
+        "writes_count": 9,
+        "repeated_reads_blocked": 0,
+        "anatomy_lookups": 15
       }
     }
   ],

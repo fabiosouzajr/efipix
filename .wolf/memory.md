@@ -334,3 +334,17 @@ Key deviations from plan: Go **1.25** (not 1.24) in go.mod/Dockerfile/CI — lat
 | 11:58 | Edited docs/superpowers/specs/2026-06-09-pix-payment-platform-design.md | expanded (+9 lines) | ~236 |
 | 11:58 | wrote 6 per-phase specs + linked from master spec | docs/superpowers/specs/phase1-6 | done | ~9k |
 | 11:58 | Session end: 7 writes across 7 files (2026-06-10-phase1-tenants-auth-immediate-charge-spec.md, 2026-06-10-phase2-due-date-charges-spec.md, 2026-06-10-phase3-webhooks-lifecycle-refunds-spec.md, 2026-06-10-phase4-notifications-forwarding-spec.md, 2026-06-10-phase5-reporting-spec.md) | 0 reads | ~10783 tok |
+| 12:20 | Created docs/adr/0005-cobv-due-date-rule-schema.md | — | ~660 |
+| 12:20 | Created docs/adr/0006-post-charges-cobv-only.md | — | ~486 |
+| 12:21 | grill-with-docs Phase2 spec: resolved CobV schema/domain decisions, wrote ADR-0005 (charge_discounts + fine/interest value-mode cols) and ADR-0006 (POST /charges CobV-only) | docs/adr/0005-*.md, docs/adr/0006-*.md | decisions locked for plan | ~9k |
+| 12:21 | Session end: 9 writes across 9 files (2026-06-10-phase1-tenants-auth-immediate-charge-spec.md, 2026-06-10-phase2-due-date-charges-spec.md, 2026-06-10-phase3-webhooks-lifecycle-refunds-spec.md, 2026-06-10-phase4-notifications-forwarding-spec.md, 2026-06-10-phase5-reporting-spec.md) | 19 reads | ~31320 tok |
+| 12:23 | Edited docs/superpowers/specs/2026-06-10-phase2-due-date-charges-spec.md | 5→5 lines | ~203 |
+| 12:24 | Edited docs/superpowers/specs/2026-06-10-phase2-due-date-charges-spec.md | 12→15 lines | ~472 |
+| 12:24 | Edited docs/superpowers/specs/2026-06-10-phase2-due-date-charges-spec.md | modified function() | ~1025 |
+| 12:24 | Edited docs/superpowers/specs/2026-06-10-phase2-due-date-charges-spec.md | 13→14 lines | ~306 |
+| 12:24 | Edited docs/superpowers/specs/2026-06-10-phase2-due-date-charges-spec.md | 16→19 lines | ~423 |
+
+## Session: 2026-06-12 12:27
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|

@@ -179,6 +179,22 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-06-12T12:42:00.000Z"
+    },
+    {
+      "id": "bug-012",
+      "timestamp": "2026-06-12T15:23:54.089Z",
+      "error_message": "Significant refactor of ",
+      "file": "docs/superpowers/specs/2026-06-10-phase2-due-date-charges-spec.md",
+      "root_cause": "3 lines replaced/restructured",
+      "fix": "Rewrote 5→5 lines (3 removed) | Also: - `ChargeKind=cobv` path through the same `Charge`; - `DueDateTerms` value object + calculation rules  | Also: - `POST /api/v1/charges` accepts a due-date body: ; - **multa**: mode (fixed value or percent) + value | Also: POST /api/v1/charges        # now accepts kind=cob; GET  /api/v1/charges/{id}   # returns due-date ter | Also: - EFí CobV discount modeling (single vs multiple d; - Interest/fine mode enumerations must match EFí's",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "md"
+      ],
+      "related_bugs": [],
+      "occurrences": 5,
+      "last_seen": "2026-06-12T15:24:53.432Z"
     }
   ]
 }
