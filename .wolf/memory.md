@@ -301,3 +301,19 @@ Key deviations from plan: Go **1.25** (not 1.24) in go.mod/Dockerfile/CI — lat
 | 11:09 | Created internal/platform/idempotency/middleware_test.go | — | ~729 |
 | 11:09 | Created internal/platform/idempotency/idempotency_test.go | — | ~572 |
 | 11:12 | Session end: 15 writes across 13 files (sdkclient.go, sdkclient_homolog_test.go, efi-sdk-review.md, 00003_charges.sql, charge_test.go) | 6 reads | ~20465 tok |
+| 11:18 | Session end: 15 writes across 13 files (sdkclient.go, sdkclient_homolog_test.go, efi-sdk-review.md, 00003_charges.sql, charge_test.go) | 6 reads | ~20465 tok |
+
+## Session: 2026-06-12 11:22
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 11:22 | Created internal/charge/app/create_test.go | — | ~694 |
+| 11:22 | Created internal/charge/app/create.go | — | ~705 |
+| 11:25 | Created internal/platform/httpx/errors_test.go | — | ~204 |
+| 11:25 | Created internal/platform/httpx/errors.go | — | ~140 |
+| 11:25 | Created internal/charge/api/dto.go | — | ~287 |
+| 11:32 | Created internal/charge/api/handler.go | — | ~764 |
+| 11:33 | Created cmd/server/main.go | — | ~583 |
+| 11:33 | Created internal/charge/api/e2e_test.go | — | ~1292 |
+| 11:35 | Edited internal/charge/app/create_test.go | modified newFakeRepo() | ~167 |
+| 11:35 | Edited internal/charge/app/create_test.go | modified TestCreateInvalidCmd() | ~319 |

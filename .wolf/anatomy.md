@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T14:09:55.675Z
-> Files: 82 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T14:35:43.338Z
+> Files: 89 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../../tmp/
 
@@ -31,7 +31,7 @@
 
 ## cmd/server/
 
-- `main.go` (~310 tok)
+- `main.go` (~583 tok)
 
 ## db/migrations/
 
@@ -83,8 +83,16 @@
 
 - `2026-06-09-pix-payment-platform-design.md` — Design Spec — Enterprise Pix Payment Platform (EFí) (~8261 tok)
 
+## internal/charge/api/
+
+- `dto.go` — Struct: createChargeRequest (~287 tok)
+- `e2e_test.go` — go:build integration (~1292 tok)
+- `handler.go` — Struct: Handler (~764 tok)
+
 ## internal/charge/app/
 
+- `create_test.go` — Struct: fakeRepo (~1008 tok)
+- `create.go` — Struct: CreateImmediateChargeCmd (~705 tok)
 - `repository.go` — Interface: ChargeRepository (~207 tok)
 
 ## internal/charge/domain/
@@ -117,6 +125,11 @@
 
 - `health_test.go` — TestEndpoints, TestReadyFailsWhenDepDown (~231 tok)
 - `health.go` — Register (~179 tok)
+
+## internal/platform/httpx/
+
+- `errors_test.go` — TestStatusForKind (~204 tok)
+- `errors.go` — StatusFor (~140 tok)
 
 ## internal/platform/idempotency/
 
