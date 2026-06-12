@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T12:28:22.980Z
-> Files: 45 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T12:43:17.112Z
+> Files: 59 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../../tmp/
 
@@ -14,7 +14,7 @@
 - `CLAUDE.md` — OpenWolf (~57 tok)
 - `CONTEXT.md` — Context — Pix Payment Platform (~1024 tok)
 - `go.mod` — Go module definition (~11 tok)
-- `Makefile` (~140 tok)
+- `Makefile` (~158 tok)
 - `sqlc.yaml` (~74 tok)
 
 ## .claude/
@@ -36,6 +36,11 @@
 ## db/migrations/
 
 - `00001_bootstrap.sql` — +goose Up (~108 tok)
+- `00002_tenants.sql` — +goose Up (~870 tok)
+
+## db/seed/
+
+- `dev.sql` (~218 tok)
 
 ## deploy/compose/
 
@@ -105,6 +110,33 @@
 
 - `money_test.go` — TestCentavosString, TestParseString (~147 tok)
 - `money.go` — ParseString (~239 tok)
+
+## internal/platform/tenantctx/
+
+- `tenantctx_test.go` — TestRoundTrip (~118 tok)
+- `tenantctx.go` — Struct: Resolved (~96 tok)
+
+## internal/tenant/api/
+
+- `middleware_test.go` — Struct: fakeRepo (~558 tok)
+- `middleware.go` — Middleware (~326 tok)
+
+## internal/tenant/app/
+
+- `apikey_test.go` — TestHashAPIKey (~79 tok)
+- `apikey.go` — HashAPIKey (~67 tok)
+- `repository.go` — Interface: Repository (~249 tok)
+- `resolver_test.go` — Struct: fakeRepo (~501 tok)
+- `resolver.go` — Struct: Resolver (~204 tok)
+
+## internal/tenant/domain/
+
+- `domain.go` — Struct: Tenant (~113 tok)
+
+## internal/tenant/infra/
+
+- `repository_test.go` — go:build integration (~639 tok)
+- `repository.go` — Struct: Repository (~766 tok)
 
 ## root (added)
 

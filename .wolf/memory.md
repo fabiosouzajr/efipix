@@ -245,3 +245,25 @@ Key deviations from plan: Go **1.25** (not 1.24) in go.mod/Dockerfile/CI — lat
 | 09:29 | Candidate 2 File 05 Task 4/5: NewHandler(uc, repo) 2-arg in main.go + e2e boot(), tenantRepo kept for resolver/middleware | docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | ~20 |
 | 09:29 | Candidate 2 implementation complete (Files 00/02/05); added Decision Log entry | .wolf/cerebrum.md | ~280 |
 | 09:29 | Session end: 6 writes across 2 files (2026-06-10-phase1-02-tenant-provider.md, 2026-06-10-phase1-05-create-charge-api.md) | 2 reads | ~12877 tok |
+
+## Session: 2026-06-12 09:31
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 09:36 | Created db/migrations/00002_tenants.sql | — | ~766 |
+| 09:36 | Created db/seed/dev.sql | — | ~218 |
+| 09:37 | Edited Makefile | inline fix | ~21 |
+| 09:37 | Edited Makefile | 2→4 lines | ~36 |
+| 09:38 | Created internal/tenant/domain/domain.go | — | ~113 |
+| 09:39 | Created internal/platform/tenantctx/tenantctx_test.go | — | ~118 |
+| 09:39 | Created internal/tenant/app/apikey_test.go | — | ~79 |
+| 09:39 | Created internal/platform/tenantctx/tenantctx.go | — | ~96 |
+| 09:39 | Created internal/tenant/app/apikey.go | — | ~67 |
+| 09:39 | Created internal/tenant/app/repository.go | — | ~249 |
+| 09:40 | Created internal/tenant/infra/repository.go | — | ~766 |
+| 09:41 | Edited db/migrations/00002_tenants.sql | expanded (+12 lines) | ~131 |
+| 09:41 | Created internal/tenant/infra/repository_test.go | — | ~639 |
+| 09:42 | Created internal/tenant/app/resolver_test.go | — | ~501 |
+| 09:42 | Created internal/tenant/app/resolver.go | — | ~204 |
+| 09:43 | Created internal/tenant/api/middleware_test.go | — | ~558 |
+| 09:43 | Created internal/tenant/api/middleware.go | — | ~326 |
