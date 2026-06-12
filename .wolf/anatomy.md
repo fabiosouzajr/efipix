@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T15:24:53.421Z
-> Files: 97 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T15:52:39.700Z
+> Files: 102 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../../tmp/
 
@@ -80,6 +80,11 @@
 - `2026-06-10-phase1-03-secrets-efi-provider.md` — Phase 1 · File 03 — Secrets, PixProvider Port & EFí Adapter (~5769 tok)
 - `2026-06-10-phase1-04-charge-aggregate.md` — Phase 1 · File 04 — Charge Aggregate: Domain, Schema, Repository, Idempotency (~8987 tok)
 - `2026-06-10-phase1-05-create-charge-api.md` — Phase 1 · File 05 — Create-Charge Use Case, API, Wiring & End-to-End (~6064 tok)
+- `2026-06-12-phase2-00-overview.md` — Phase 2 Implementation Plan — Overview & Conventions (~3720 tok)
+- `2026-06-12-phase2-01-domain-rules.md` — Phase 2 · File 01 — Domain Rules: `brdate`, `DueDateTerms`, `EffectiveAmount`, `NewDueDate` (~5975 tok)
+- `2026-06-12-phase2-02-schema-repository.md` — Phase 2 · File 02 — Schema Migration & Repository Persistence (~3803 tok)
+- `2026-06-12-phase2-03-provider-sdk.md` — Phase 2 · File 03 — Provider Port & EFí CobV Adapter (~4086 tok)
+- `2026-06-12-phase2-04-usecase-api.md` — Phase 2 · File 04 — Use Case, CobV API, Wiring & End-to-End (~7218 tok)
 
 ## docs/superpowers/specs/
 

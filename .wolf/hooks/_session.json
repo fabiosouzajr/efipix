@@ -1,11 +1,165 @@
 {
-  "session_id": "session-2026-06-12-1227",
-  "started": "2026-06-12T15:27:32.720Z",
-  "files_read": {},
-  "files_written": [],
-  "edit_counts": {},
-  "anatomy_hits": 0,
-  "anatomy_misses": 0,
+  "session_id": "session-2026-06-12-1233",
+  "started": "2026-06-12T15:33:35.802Z",
+  "files_read": {
+    "/home/fj/git/efipix/internal/charge/domain/charge.go": {
+      "count": 1,
+      "tokens": 918,
+      "first_read": "2026-06-12T15:35:28.625Z"
+    },
+    "/home/fj/git/efipix/db/migrations/00003_charges.sql": {
+      "count": 1,
+      "tokens": 1284,
+      "first_read": "2026-06-12T15:35:28.982Z"
+    },
+    "/home/fj/git/efipix/docs/adr/0005-cobv-due-date-rule-schema.md": {
+      "count": 1,
+      "tokens": 619,
+      "first_read": "2026-06-12T15:35:29.486Z"
+    },
+    "/home/fj/git/efipix/docs/adr/0006-post-charges-cobv-only.md": {
+      "count": 1,
+      "tokens": 456,
+      "first_read": "2026-06-12T15:35:29.877Z"
+    },
+    "/home/fj/git/efipix/internal/provider/provider.go": {
+      "count": 1,
+      "tokens": 207,
+      "first_read": "2026-06-12T15:35:34.424Z"
+    },
+    "/home/fj/git/efipix/internal/provider/efi/efi.go": {
+      "count": 1,
+      "tokens": 613,
+      "first_read": "2026-06-12T15:35:34.880Z"
+    },
+    "/home/fj/git/efipix/internal/provider/efi/client.go": {
+      "count": 1,
+      "tokens": 214,
+      "first_read": "2026-06-12T15:35:35.333Z"
+    },
+    "/home/fj/git/efipix/internal/provider/efi/sdkclient.go": {
+      "count": 1,
+      "tokens": 1067,
+      "first_read": "2026-06-12T15:35:35.471Z"
+    },
+    "/home/fj/git/efipix/internal/charge/app/create.go": {
+      "count": 1,
+      "tokens": 705,
+      "first_read": "2026-06-12T15:35:38.881Z"
+    },
+    "/home/fj/git/efipix/internal/charge/app/repository.go": {
+      "count": 1,
+      "tokens": 207,
+      "first_read": "2026-06-12T15:35:39.305Z"
+    },
+    "/home/fj/git/efipix/internal/charge/api/dto.go": {
+      "count": 1,
+      "tokens": 287,
+      "first_read": "2026-06-12T15:35:39.725Z"
+    },
+    "/home/fj/git/efipix/internal/charge/api/handler.go": {
+      "count": 1,
+      "tokens": 764,
+      "first_read": "2026-06-12T15:35:40.150Z"
+    },
+    "/home/fj/git/efipix/internal/platform/money/money.go": {
+      "count": 1,
+      "tokens": 239,
+      "first_read": "2026-06-12T15:35:40.400Z"
+    },
+    "/home/fj/git/efipix/internal/charge/infra/repository.go": {
+      "count": 1,
+      "tokens": 1146,
+      "first_read": "2026-06-12T15:35:44.700Z"
+    },
+    "/home/fj/git/efipix/docs/superpowers/plans/2026-06-10-phase1-00-overview.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-06-12T15:35:45.548Z"
+    },
+    "/home/fj/git/efipix/internal/charge/api/e2e_test.go": {
+      "count": 1,
+      "tokens": 1292,
+      "first_read": "2026-06-12T15:35:45.785Z"
+    },
+    "/home/fj/git/efipix/docs/superpowers/plans/done/2026-06-10-phase1-00-overview.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-06-12T15:36:05.383Z"
+    },
+    "/home/fj/git/efipix/cmd/server/main.go": {
+      "count": 1,
+      "tokens": 583,
+      "first_read": "2026-06-12T15:38:57.562Z"
+    },
+    "/home/fj/git/efipix/internal/provider/efi/efi_test.go": {
+      "count": 1,
+      "tokens": 630,
+      "first_read": "2026-06-12T15:38:58.458Z"
+    },
+    "/home/fj/git/efipix/internal/charge/infra/repository_test.go": {
+      "count": 1,
+      "tokens": 831,
+      "first_read": "2026-06-12T15:42:22.447Z"
+    },
+    "/home/fj/git/efipix/db/seed/dev.sql": {
+      "count": 1,
+      "tokens": 218,
+      "first_read": "2026-06-12T15:42:22.610Z"
+    },
+    "/home/fj/git/efipix/internal/charge/app/create_test.go": {
+      "count": 1,
+      "tokens": 1008,
+      "first_read": "2026-06-12T15:48:10.102Z"
+    }
+  },
+  "files_written": [
+    {
+      "file": "/home/fj/git/efipix/docs/superpowers/plans/2026-06-12-phase2-00-overview.md",
+      "action": "create",
+      "tokens": 4059,
+      "at": "2026-06-12T15:43:31.356Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/docs/superpowers/plans/2026-06-12-phase2-01-domain-rules.md",
+      "action": "create",
+      "tokens": 6828,
+      "at": "2026-06-12T15:45:14.866Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/docs/superpowers/plans/2026-06-12-phase2-02-schema-repository.md",
+      "action": "create",
+      "tokens": 4346,
+      "at": "2026-06-12T15:46:23.326Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/docs/superpowers/plans/2026-06-12-phase2-03-provider-sdk.md",
+      "action": "create",
+      "tokens": 4669,
+      "at": "2026-06-12T15:47:38.364Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/docs/superpowers/plans/2026-06-12-phase2-04-usecase-api.md",
+      "action": "create",
+      "tokens": 8249,
+      "at": "2026-06-12T15:51:03.673Z"
+    },
+    {
+      "file": "/home/fj/git/efipix/docs/superpowers/plans/2026-06-12-phase2-00-overview.md",
+      "action": "edit",
+      "tokens": 256,
+      "at": "2026-06-12T15:52:39.710Z"
+    }
+  ],
+  "edit_counts": {
+    "docs/superpowers/plans/2026-06-12-phase2-00-overview.md": 2,
+    "docs/superpowers/plans/2026-06-12-phase2-01-domain-rules.md": 1,
+    "docs/superpowers/plans/2026-06-12-phase2-02-schema-repository.md": 1,
+    "docs/superpowers/plans/2026-06-12-phase2-03-provider-sdk.md": 1,
+    "docs/superpowers/plans/2026-06-12-phase2-04-usecase-api.md": 1
+  },
+  "anatomy_hits": 21,
+  "anatomy_misses": 1,
   "repeated_reads_warned": 0,
   "cerebrum_warnings": 0,
   "stop_count": 1
