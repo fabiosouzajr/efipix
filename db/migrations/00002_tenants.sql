@@ -53,6 +53,18 @@ CREATE POLICY p_apikeys  ON api_keys          USING (tenant_id = current_tenant_
 CREATE POLICY p_providers ON payment_providers USING (tenant_id = current_tenant_id());
 CREATE POLICY p_pixkeys  ON pix_keys          USING (tenant_id = current_tenant_id());
 
+-- Ensure the least-privilege app role exists. Idempotent: compose's
+-- initdb/00-roles.sql also creates it before migrations run; testcontainers
+-- (no initdb scripts) needs it created here.
+-- +goose StatementBegin
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'pix_app') THEN
+    CREATE ROLE pix_app LOGIN PASSWORD 'pix_app_pw';
+  END IF;
+END$$;
+-- +goose StatementEnd
+
 GRANT SELECT, INSERT, UPDATE, DELETE ON tenants, api_keys, payment_providers, pix_keys TO pix_app;
 
 -- +goose Down
