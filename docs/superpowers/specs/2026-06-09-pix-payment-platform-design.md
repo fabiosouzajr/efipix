@@ -368,6 +368,15 @@ Versioned prefix `/api/v1`. Full contract in `api/openapi.yaml` (grows per phase
 
 > Adds **Phase 0** foundation and weaves cross-cutting concerns from the start, then the prompt's functional phases.
 
+**Each phase has a dedicated spec** (this section is the summary; the per-phase specs hold scope, exit criteria, and testing focus):
+
+- Phase 1 — [Tenants, EFí auth, immediate charges](2026-06-10-phase1-tenants-auth-immediate-charge-spec.md) (foundation folded in) · [plan](../plans/2026-06-10-phase1-00-overview.md)
+- Phase 2 — [Due-date charges (CobV)](2026-06-10-phase2-due-date-charges-spec.md)
+- Phase 3 — [Webhooks, lifecycle, refunds, reconciliation](2026-06-10-phase3-webhooks-lifecycle-refunds-spec.md)
+- Phase 4 — [Notifications & webhook forwarding](2026-06-10-phase4-notifications-forwarding-spec.md)
+- Phase 5 — [Reporting & exports](2026-06-10-phase5-reporting-spec.md)
+- Phase 6 — [Production hardening](2026-06-10-phase6-production-hardening-spec.md)
+
 ### Phase 0 — Foundation
 
 - Init Go module, folder skeleton, `cmd/server/main.go` composition root.
