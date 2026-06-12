@@ -206,11 +206,12 @@ import (
 )
 
 func TestRoundTrip(t *testing.T) {
-	ctx := With(context.Background(), &Resolved{TenantID: "t1", ProviderID: "p1"})
+	ctx := With(context.Background(), &Resolved{TenantID: "t1", ProviderID: "p1", PixKey: "k1"})
 	got, ok := From(ctx)
 	require.True(t, ok)
 	require.Equal(t, "t1", got.TenantID)
 	require.Equal(t, "p1", got.ProviderID)
+	require.Equal(t, "k1", got.PixKey)
 
 	_, ok = From(context.Background())
 	require.False(t, ok)
@@ -251,6 +252,7 @@ import "context"
 type Resolved struct {
 	TenantID   string
 	ProviderID string
+	PixKey     string
 }
 
 type ctxKey struct{}
@@ -328,21 +330,25 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ```go
 package app
 
-import (
-	"context"
-
-	"github.com/efipix/pix/internal/tenant/domain"
-)
+import "context"
 
 type Repository interface {
 	// TenantByAPIKeyHash resolves an active tenant id from an API key hash (auth path; no tenant ctx).
 	TenantByAPIKeyHash(ctx context.Context, keyHash string) (tenantID string, err error)
-	// DefaultProvider returns the active default provider id for a tenant.
-	DefaultProvider(ctx context.Context, tenantID string) (providerID string, err error)
-	// Provider validates a provider belongs to the tenant and is active, returning it.
-	Provider(ctx context.Context, tenantID, providerID string) (*domain.PaymentProvider, error)
-	// PixKeyFor returns the (first) pix key string for a provider.
-	PixKeyFor(ctx context.Context, tenantID, providerID string) (string, error)
+	// ResolveAccount resolves the acting payment provider and its pix key for a
+	// tenant in one round trip. If explicitProviderID == "", it resolves the
+	// tenant's active default provider; otherwise it validates that
+	// explicitProviderID belongs to the tenant and is active. Returns
+	// KindValidation if no provider resolves, or if the resolved provider has
+	// no pix key.
+	ResolveAccount(ctx context.Context, tenantID, explicitProviderID string) (ResolvedAccount, error)
+}
+
+// ResolvedAccount is the join result of account resolution: the acting
+// payment provider and the pix key new Charges should address.
+type ResolvedAccount struct {
+	ProviderID string
+	PixKey     string
 }
 ```
 
@@ -359,7 +365,7 @@ import (
 
 	apperrs "github.com/efipix/pix/internal/platform/errors"
 	"github.com/efipix/pix/internal/platform/db"
-	"github.com/efipix/pix/internal/tenant/domain"
+	"github.com/efipix/pix/internal/tenant/app"
 )
 
 type Repository struct{ pool *db.Pool }
@@ -386,50 +392,55 @@ func (r *Repository) TenantByAPIKeyHash(ctx context.Context, keyHash string) (st
 	return tenantID, nil
 }
 
-func (r *Repository) DefaultProvider(ctx context.Context, tenantID string) (string, error) {
-	var id string
+// ResolveAccount joins payment_providers to pix_keys in one query: when
+// explicitProviderID == "", it matches the tenant's active default provider;
+// otherwise it matches that provider id, validating it belongs to the tenant
+// and is active. On no match, a same-tx existence check disambiguates "no
+// such provider" from "provider has no pix key".
+func (r *Repository) ResolveAccount(ctx context.Context, tenantID, explicitProviderID string) (app.ResolvedAccount, error) {
+	var acct app.ResolvedAccount
 	err := r.pool.WithTenantTx(ctx, tenantID, func(tx pgx.Tx) error {
-		return tx.QueryRow(ctx,
+		scanErr := tx.QueryRow(ctx,
+			`SELECT pp.id, pk.key
+			 FROM payment_providers pp
+			 JOIN pix_keys pk ON pk.payment_provider_id = pp.id AND pk.tenant_id = pp.tenant_id
+			 WHERE pp.tenant_id = $1 AND pp.status = 'active'
+			   AND (($2 = '' AND pp.is_default) OR pp.id::text = $2)
+			 ORDER BY pk.created_at ASC, pk.id ASC
+			 LIMIT 1`,
+			tenantID, explicitProviderID,
+		).Scan(&acct.ProviderID, &acct.PixKey)
+		if scanErr == nil {
+			return nil
+		}
+		if !errors.Is(scanErr, pgx.ErrNoRows) {
+			return scanErr
+		}
+
+		// No joined row: disambiguate "no such provider" from "provider has no pix key".
+		var providerID string
+		existsErr := tx.QueryRow(ctx,
 			`SELECT id FROM payment_providers
-			 WHERE tenant_id = $1 AND is_default AND status = 'active'`, tenantID,
-		).Scan(&id)
+			 WHERE tenant_id = $1 AND status = 'active'
+			   AND (($2 = '' AND is_default) OR id::text = $2)`,
+			tenantID, explicitProviderID,
+		).Scan(&providerID)
+		switch {
+		case errors.Is(existsErr, pgx.ErrNoRows):
+			if explicitProviderID == "" {
+				return apperrs.New(apperrs.KindValidation, "no default provider for tenant")
+			}
+			return apperrs.New(apperrs.KindValidation, "unknown or inactive provider")
+		case existsErr != nil:
+			return existsErr
+		default:
+			return apperrs.New(apperrs.KindValidation, "no pix key for provider")
+		}
 	})
-	if errors.Is(err, pgx.ErrNoRows) {
-		return "", apperrs.New(apperrs.KindValidation, "no default provider for tenant")
-	}
-	return id, err
-}
-
-func (r *Repository) Provider(ctx context.Context, tenantID, providerID string) (*domain.PaymentProvider, error) {
-	var p domain.PaymentProvider
-	err := r.pool.WithTenantTx(ctx, tenantID, func(tx pgx.Tx) error {
-		return tx.QueryRow(ctx,
-			`SELECT id, tenant_id, provider, account_label, status, is_default, webhook_config
-			 FROM payment_providers WHERE id = $1 AND tenant_id = $2 AND status = 'active'`,
-			providerID, tenantID,
-		).Scan(&p.ID, &p.TenantID, &p.Provider, &p.AccountLabel, &p.Status, &p.IsDefault, &p.WebhookConfig)
-	})
-	if errors.Is(err, pgx.ErrNoRows) {
-		return nil, apperrs.New(apperrs.KindValidation, "unknown or inactive provider")
-	}
 	if err != nil {
-		return nil, err
+		return app.ResolvedAccount{}, err
 	}
-	return &p, nil
-}
-
-func (r *Repository) PixKeyFor(ctx context.Context, tenantID, providerID string) (string, error) {
-	var key string
-	err := r.pool.WithTenantTx(ctx, tenantID, func(tx pgx.Tx) error {
-		return tx.QueryRow(ctx,
-			`SELECT key FROM pix_keys WHERE payment_provider_id = $1 AND tenant_id = $2 LIMIT 1`,
-			providerID, tenantID,
-		).Scan(&key)
-	})
-	if errors.Is(err, pgx.ErrNoRows) {
-		return "", apperrs.New(apperrs.KindValidation, "no pix key for provider")
-	}
-	return key, err
+	return acct, nil
 }
 ```
 
@@ -452,6 +463,7 @@ import (
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"github.com/testcontainers/testcontainers-go/wait"
 
+	apperrs "github.com/efipix/pix/internal/platform/errors"
 	"github.com/efipix/pix/internal/platform/db"
 	tapp "github.com/efipix/pix/internal/tenant/app"
 )
@@ -496,17 +508,17 @@ func TestResolveChain(t *testing.T) {
 	_, err = r.TenantByAPIKeyHash(ctx, tapp.HashAPIKey("wrong"))
 	require.Error(t, err)
 
-	provID, err := r.DefaultProvider(ctx, tenantID)
+	acct, err := r.ResolveAccount(ctx, tenantID, "")
 	require.NoError(t, err)
-	require.Equal(t, "22222222-2222-2222-2222-222222222222", provID)
+	require.Equal(t, "22222222-2222-2222-2222-222222222222", acct.ProviderID)
+	require.Equal(t, "dev-pix-key@example.com", acct.PixKey)
 
-	p, err := r.Provider(ctx, tenantID, provID)
+	acct2, err := r.ResolveAccount(ctx, tenantID, acct.ProviderID)
 	require.NoError(t, err)
-	require.True(t, p.IsDefault)
+	require.Equal(t, acct, acct2)
 
-	key, err := r.PixKeyFor(ctx, tenantID, provID)
-	require.NoError(t, err)
-	require.Equal(t, "dev-pix-key@example.com", key)
+	_, err = r.ResolveAccount(ctx, tenantID, "00000000-0000-0000-0000-000000000000")
+	require.Equal(t, apperrs.KindValidation, apperrs.KindOf(err))
 }
 ```
 
@@ -546,12 +558,11 @@ import (
 	"github.com/stretchr/testify/require"
 
 	apperrs "github.com/efipix/pix/internal/platform/errors"
-	"github.com/efipix/pix/internal/tenant/domain"
 )
 
 type fakeRepo struct {
-	tenantID, defProv string
-	providers         map[string]*domain.PaymentProvider
+	tenantID string
+	accounts map[string]ResolvedAccount // keyed by explicit providerID; "" = default
 }
 
 func (f *fakeRepo) TenantByAPIKeyHash(_ context.Context, h string) (string, error) {
@@ -560,21 +571,19 @@ func (f *fakeRepo) TenantByAPIKeyHash(_ context.Context, h string) (string, erro
 	}
 	return "", apperrs.New(apperrs.KindUnauthorized, "invalid api key")
 }
-func (f *fakeRepo) DefaultProvider(_ context.Context, _ string) (string, error) { return f.defProv, nil }
-func (f *fakeRepo) Provider(_ context.Context, _, id string) (*domain.PaymentProvider, error) {
-	if p, ok := f.providers[id]; ok {
-		return p, nil
+func (f *fakeRepo) ResolveAccount(_ context.Context, _, providerID string) (ResolvedAccount, error) {
+	if a, ok := f.accounts[providerID]; ok {
+		return a, nil
 	}
-	return nil, apperrs.New(apperrs.KindValidation, "unknown provider")
+	return ResolvedAccount{}, apperrs.New(apperrs.KindValidation, "unknown or inactive provider")
 }
-func (f *fakeRepo) PixKeyFor(_ context.Context, _, _ string) (string, error) { return "k", nil }
 
 func newFake() *fakeRepo {
 	return &fakeRepo{
-		tenantID: "t1", defProv: "pdef",
-		providers: map[string]*domain.PaymentProvider{
-			"pdef": {ID: "pdef", TenantID: "t1", Status: "active", IsDefault: true},
-			"pX":   {ID: "pX", TenantID: "t1", Status: "active"},
+		tenantID: "t1",
+		accounts: map[string]ResolvedAccount{
+			"":   {ProviderID: "pdef", PixKey: "k-def"},
+			"pX": {ProviderID: "pX", PixKey: "k-x"},
 		},
 	}
 }
@@ -585,6 +594,7 @@ func TestResolveDefaultProvider(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, "t1", res.TenantID)
 	require.Equal(t, "pdef", res.ProviderID)
+	require.Equal(t, "k-def", res.PixKey)
 }
 
 func TestResolveExplicitProvider(t *testing.T) {
@@ -592,6 +602,7 @@ func TestResolveExplicitProvider(t *testing.T) {
 	res, err := r.Resolve(context.Background(), "good", "pX")
 	require.NoError(t, err)
 	require.Equal(t, "pX", res.ProviderID)
+	require.Equal(t, "k-x", res.PixKey)
 }
 
 func TestResolveBadKey(t *testing.T) {
@@ -627,23 +638,18 @@ type Resolver struct{ repo Repository }
 
 func NewResolver(repo Repository) *Resolver { return &Resolver{repo: repo} }
 
-// Resolve maps a raw API key (+ optional explicit provider id) to a tenant/provider context.
+// Resolve maps a raw API key (+ optional explicit provider id) to the acting
+// tenant/provider/pix-key context.
 func (r *Resolver) Resolve(ctx context.Context, rawAPIKey, explicitProviderID string) (*tenantctx.Resolved, error) {
 	tenantID, err := r.repo.TenantByAPIKeyHash(ctx, HashAPIKey(rawAPIKey))
 	if err != nil {
 		return nil, err
 	}
-	providerID := explicitProviderID
-	if providerID == "" {
-		if providerID, err = r.repo.DefaultProvider(ctx, tenantID); err != nil {
-			return nil, err
-		}
-	} else {
-		if _, err = r.repo.Provider(ctx, tenantID, providerID); err != nil {
-			return nil, err
-		}
+	acct, err := r.repo.ResolveAccount(ctx, tenantID, explicitProviderID)
+	if err != nil {
+		return nil, err
 	}
-	return &tenantctx.Resolved{TenantID: tenantID, ProviderID: providerID}, nil
+	return &tenantctx.Resolved{TenantID: tenantID, ProviderID: acct.ProviderID, PixKey: acct.PixKey}, nil
 }
 ```
 
@@ -677,6 +683,7 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 package api
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -684,11 +691,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
 
+	apperrs "github.com/efipix/pix/internal/platform/errors"
 	"github.com/efipix/pix/internal/platform/tenantctx"
 	tapp "github.com/efipix/pix/internal/tenant/app"
-	"github.com/efipix/pix/internal/tenant/domain"
-	"context"
-	apperrs "github.com/efipix/pix/internal/platform/errors"
 )
 
 type fakeRepo struct{}
@@ -699,14 +704,12 @@ func (fakeRepo) TenantByAPIKeyHash(_ context.Context, h string) (string, error) 
 	}
 	return "", apperrs.New(apperrs.KindUnauthorized, "invalid")
 }
-func (fakeRepo) DefaultProvider(_ context.Context, _ string) (string, error)             { return "pdef", nil }
-func (fakeRepo) Provider(_ context.Context, _, id string) (*domain.PaymentProvider, error) {
-	if id == "pdef" {
-		return &domain.PaymentProvider{ID: "pdef"}, nil
+func (fakeRepo) ResolveAccount(_ context.Context, _, providerID string) (tapp.ResolvedAccount, error) {
+	if providerID == "" || providerID == "pdef" {
+		return tapp.ResolvedAccount{ProviderID: "pdef", PixKey: "k"}, nil
 	}
-	return nil, apperrs.New(apperrs.KindValidation, "unknown")
+	return tapp.ResolvedAccount{}, apperrs.New(apperrs.KindValidation, "unknown")
 }
-func (fakeRepo) PixKeyFor(_ context.Context, _, _ string) (string, error) { return "k", nil }
 
 func testRouter() *gin.Engine {
 	gin.SetMode(gin.TestMode)
@@ -714,7 +717,7 @@ func testRouter() *gin.Engine {
 	mw := Middleware(tapp.NewResolver(fakeRepo{}))
 	r.GET("/x", mw, func(c *gin.Context) {
 		res, _ := tenantctx.From(c.Request.Context())
-		c.JSON(http.StatusOK, gin.H{"tenant": res.TenantID, "provider": res.ProviderID})
+		c.JSON(http.StatusOK, gin.H{"tenant": res.TenantID, "provider": res.ProviderID, "pixkey": res.PixKey})
 	})
 	return r
 }
@@ -727,6 +730,7 @@ func TestMiddlewareOK(t *testing.T) {
 	require.Equal(t, http.StatusOK, w.Code)
 	require.Contains(t, w.Body.String(), `"tenant":"t1"`)
 	require.Contains(t, w.Body.String(), `"provider":"pdef"`)
+	require.Contains(t, w.Body.String(), `"pixkey":"k"`)
 }
 
 func TestMiddlewareMissingKey(t *testing.T) {
@@ -816,8 +820,8 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 ## File 02 exit criteria
 
 - [ ] `go test ./...` green; `go test -tags=integration ./internal/tenant/...` green (Docker).
-- [ ] API key `pk_dev_secret` resolves to the dev tenant + default provider.
-- [ ] Middleware sets `tenantctx.Resolved` and returns 401/422 on bad key/provider.
+- [ ] API key `pk_dev_secret` resolves to the dev tenant + default provider, including its `PixKey`.
+- [ ] Middleware sets `tenantctx.Resolved` (with `PixKey`) and returns 401/422 on bad key/provider.
 - [ ] RLS proven: `TenantByAPIKeyHash` works via admin pool; tenant-scoped reads work via `WithTenantTx`.
 
 Proceed to [03-secrets-efi-provider](2026-06-10-phase1-03-secrets-efi-provider.md).

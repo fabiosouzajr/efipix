@@ -113,6 +113,54 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-06-10T15:30:00.000Z"
+    },
+    {
+      "id": "bug-008",
+      "timestamp": "2026-06-12T12:23:40.045Z",
+      "error_message": "Significant refactor of ",
+      "file": "docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md",
+      "root_cause": "6 lines replaced/restructured",
+      "fix": "Rewrote 12→12 lines (6 removed)",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "md"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-06-12T12:23:40.045Z"
+    },
+    {
+      "id": "bug-009",
+      "timestamp": "2026-06-12T12:24:43.145Z",
+      "error_message": "Missing import: \n\n\tapperrs ",
+      "file": "docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md",
+      "root_cause": "Module(s) not imported: \n\n\tapperrs ",
+      "fix": "Added import(s) for \n\n\tapperrs ",
+      "tags": [
+        "auto-detected",
+        "missing-import",
+        "md"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-06-12T12:24:43.145Z"
+    },
+    {
+      "id": "bug-010",
+      "timestamp": "2026-06-12T12:27:22.304Z",
+      "error_message": "Incorrect value in code",
+      "file": "docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md",
+      "root_cause": "Had `tenantctx.Resolved`",
+      "fix": "Changed to `PixKey`",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "md"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-06-12T12:27:22.304Z"
     }
   ]
 }

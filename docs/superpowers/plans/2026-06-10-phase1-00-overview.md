@@ -75,7 +75,7 @@ func (p *Pool) WithAdminTx(ctx context.Context, fn func(pgx.Tx) error) error
 package tenantctx
 func With(ctx context.Context, t *Resolved) context.Context
 func From(ctx context.Context) (*Resolved, bool)
-type Resolved struct { TenantID string; ProviderID string } // ProviderID = resolved default/explicit payment_provider
+type Resolved struct { TenantID string; ProviderID string; PixKey string } // ProviderID = resolved default/explicit payment_provider; PixKey = its acting pix key
 
 // internal/tenant/domain   (defined in 02)
 type Tenant struct { ID, Name, Status string }

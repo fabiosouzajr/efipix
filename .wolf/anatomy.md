@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-10T15:27:36.365Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-12T12:28:22.980Z
 > Files: 45 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../../tmp/
@@ -65,12 +65,12 @@
 
 ## docs/superpowers/plans/
 
-- `2026-06-10-phase1-00-overview.md` — Phase 1 Implementation Plan — Overview & Conventions (~2695 tok)
+- `2026-06-10-phase1-00-overview.md` — Phase 1 Implementation Plan — Overview & Conventions (~2706 tok)
 - `2026-06-10-phase1-01-foundation.md` — Phase 1 · File 01 — Foundation (~6555 tok)
-- `2026-06-10-phase1-02-tenant-provider.md` — Phase 1 · File 02 — Tenant, Provider Accounts, Resolution & API-Key Auth (~6317 tok)
+- `2026-06-10-phase1-02-tenant-provider.md` — Phase 1 · File 02 — Tenant, Provider Accounts, Resolution & API-Key Auth (~6383 tok)
 - `2026-06-10-phase1-03-secrets-efi-provider.md` — Phase 1 · File 03 — Secrets, PixProvider Port & EFí Adapter (~5769 tok)
 - `2026-06-10-phase1-04-charge-aggregate.md` — Phase 1 · File 04 — Charge Aggregate: Domain, Schema, Repository, Idempotency (~8987 tok)
-- `2026-06-10-phase1-05-create-charge-api.md` — Phase 1 · File 05 — Create-Charge Use Case, API, Wiring & End-to-End (~6144 tok)
+- `2026-06-10-phase1-05-create-charge-api.md` — Phase 1 · File 05 — Create-Charge Use Case, API, Wiring & End-to-End (~6064 tok)
 
 ## docs/superpowers/specs/
 

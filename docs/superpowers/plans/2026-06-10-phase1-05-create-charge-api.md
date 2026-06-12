@@ -366,18 +366,15 @@ import (
 	"github.com/efipix/pix/internal/platform/idempotency"
 	"github.com/efipix/pix/internal/platform/money"
 	"github.com/efipix/pix/internal/platform/tenantctx"
-	tenantapp "github.com/efipix/pix/internal/tenant/app"
 )
 
 type Handler struct {
-	uc      *chargeapp.CreateImmediateCharge
-	repo    chargeapp.ChargeRepository
-	tenants tenantapp.Repository
+	uc   *chargeapp.CreateImmediateCharge
+	repo chargeapp.ChargeRepository
 }
 
-func NewHandler(uc *chargeapp.CreateImmediateCharge, repo chargeapp.ChargeRepository,
-	tenants tenantapp.Repository) *Handler {
-	return &Handler{uc: uc, repo: repo, tenants: tenants}
+func NewHandler(uc *chargeapp.CreateImmediateCharge, repo chargeapp.ChargeRepository) *Handler {
+	return &Handler{uc: uc, repo: repo}
 }
 
 // RegisterRoutes wires the charge endpoints. POST /charges runs behind
@@ -411,12 +408,8 @@ func (h *Handler) process(ctx context.Context, res *tenantctx.Resolved, raw []by
 	if err != nil || amount <= 0 {
 		return http.StatusUnprocessableEntity, mustJSON(gin.H{"error": "invalid amount"})
 	}
-	pixKey, err := h.tenants.PixKeyFor(ctx, res.TenantID, res.ProviderID)
-	if err != nil {
-		return httpx.StatusFor(err), mustJSON(gin.H{"error": err.Error()})
-	}
 	charge, err := h.uc.Execute(ctx, chargeapp.CreateImmediateChargeCmd{
-		TenantID: res.TenantID, PaymentProviderID: res.ProviderID, PixKey: pixKey,
+		TenantID: res.TenantID, PaymentProviderID: res.ProviderID, PixKey: res.PixKey,
 		Amount: amount, Description: req.Description, ExpirationSeconds: req.ExpirationSeconds,
 		Payer: domain.Payer{
 			Doc: req.Payer.Doc, DocType: req.Payer.DocType, Name: req.Payer.Name,
@@ -526,7 +519,7 @@ func main() {
 	idem := idempotency.NewPg(pool)
 	prov := efi.New(sp, efi.SDKFactory)
 	createUC := chargeapp.NewCreateImmediateCharge(chargeRepo, prov)
-	chargeHandler := chargeapi.NewHandler(createUC, chargeRepo, tenantRepo)
+	chargeHandler := chargeapi.NewHandler(createUC, chargeRepo)
 
 	r := gin.New()
 	r.Use(gin.Recovery())
@@ -652,7 +645,7 @@ func boot(t *testing.T, prov provider.PixProvider) *gin.Engine {
 	tenantRepo := tenantinfra.New(pool)
 	chargeRepo := chargeinfra.New(pool)
 	uc := chargeapp.NewCreateImmediateCharge(chargeRepo, prov)
-	h := chargeapi.NewHandler(uc, chargeRepo, tenantRepo)
+	h := chargeapi.NewHandler(uc, chargeRepo)
 	idem := idempotency.NewPg(pool)
 
 	gin.SetMode(gin.TestMode)

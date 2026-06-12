@@ -207,3 +207,41 @@ Key deviations from plan: Go **1.25** (not 1.24) in go.mod/Dockerfile/CI — lat
 
 | Time | Action | File(s) | Outcome | ~Tokens |
 |------|--------|---------|---------|--------|
+
+## Session: 2026-06-12 09:19
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-12 09:20
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 09:22 | Edited docs/superpowers/plans/2026-06-10-phase1-00-overview.md | inline fix | ~44 |
+| 09:22 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | added 1 import(s) | ~93 |
+| 09:22 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | 4→5 lines | ~22 |
+| 09:22 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | 20→24 lines | ~252 |
+| 09:23 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | 6→6 lines | ~51 |
+| 09:23 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | modified Is() | ~506 |
+| 09:23 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | modified setup() | ~52 |
+| 09:23 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | 12→12 lines | ~127 |
+| 09:24 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | added 2 import(s) | ~390 |
+| 09:24 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | 18→13 lines | ~148 |
+| 09:24 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | modified HashAPIKey() | ~220 |
+
+## Session: 2026-06-12 09:26
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 09:27 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | added 1 import(s) | ~140 |
+| 09:27 | Edited docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | 2→2 lines | ~54 |
+| 09:27 | Edited docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | modified NewHandler() | ~146 |
+| 09:27 | Edited docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | 6→2 lines | ~40 |
+| 09:28 | Edited docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | inline fix | ~16 |
+| 09:28 | Edited docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | inline fix | ~12 |
+| 09:29 | Candidate 2 Task 6: collapsed middleware_test.go fakeRepo to TenantByAPIKeyHash+ResolveAccount, dropped domain import, added pixkey assertion | docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | ~120 |
+| 09:29 | Candidate 2: updated File 02 exit criteria to mention PixKey resolution | docs/superpowers/plans/2026-06-10-phase1-02-tenant-provider.md | ~15 |
+| 09:29 | Candidate 2 File 05 Task 3: handler.go drops tenants/tenantapp dep, process() reads res.PixKey directly | docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | ~60 |
+| 09:29 | Candidate 2 File 05 Task 4/5: NewHandler(uc, repo) 2-arg in main.go + e2e boot(), tenantRepo kept for resolver/middleware | docs/superpowers/plans/2026-06-10-phase1-05-create-charge-api.md | ~20 |
+| 09:29 | Candidate 2 implementation complete (Files 00/02/05); added Decision Log entry | .wolf/cerebrum.md | ~280 |
+| 09:29 | Session end: 6 writes across 2 files (2026-06-10-phase1-02-tenant-provider.md, 2026-06-10-phase1-05-create-charge-api.md) | 2 reads | ~12877 tok |
