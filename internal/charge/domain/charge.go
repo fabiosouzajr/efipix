@@ -109,3 +109,26 @@ func (c *Charge) appendEvent(t string) {
 		Payload: []byte("{}"), OccurredAt: time.Now().UTC(),
 	})
 }
+
+// MarkActive transitions CREATED -> ACTIVE, storing provider location/QR/payload.
+func (c *Charge) MarkActive(locationID, qrImage, pixPayload string) error {
+	if c.Status != StatusCreated {
+		return apperrs.New(apperrs.KindConflict, "charge not in CREATED state")
+	}
+	c.Status = StatusActive
+	c.LocationID = locationID
+	c.QRCodeImage = qrImage
+	c.PixPayload = pixPayload
+	c.appendEvent("activated")
+	return nil
+}
+
+// MarkFailed transitions CREATED -> FAILED (provider create failed).
+func (c *Charge) MarkFailed(reason string) error {
+	if c.Status != StatusCreated {
+		return apperrs.New(apperrs.KindConflict, "charge not in CREATED state")
+	}
+	c.Status = StatusFailed
+	c.appendEvent("failed")
+	return nil
+}
